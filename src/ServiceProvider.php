@@ -19,10 +19,6 @@ use \Pimple\Container;
  */
 class ServiceProvider implements ServiceProviderInterface {
  	public function register( Container $pimple ) {
- 		$pimple['plugin'] = function( $pimple ) {
- 			return new Plugin( $pimple['foo'] );
- 		};
-
  		$pimple['foo'] = function() {
  			return new Foo();
  		};

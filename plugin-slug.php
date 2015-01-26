@@ -36,8 +36,6 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
-$container = new \Pimple\Container;
-$container->register( new ServiceProvider() );
-
-$plugin_slug = $container['plugin'];
+$plugin_slug = new Plugin();
+$plugin_slug->register( new ServiceProvider() );
 $plugin_slug->setup_hooks();

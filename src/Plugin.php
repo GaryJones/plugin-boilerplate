@@ -11,22 +11,18 @@
 
 namespace Gamajo\PluginSlug;
 
+use \Pimple\Container;
+
 /**
  *
  */
-class Plugin {
-	protected $foo;
-
-	function __construct( $foo = null ) {
-		$this->foo = $foo;
-	}
-
+class Plugin extends Container {
 	public function setup_hooks() {
 		// add hooks
 		add_action( 'genesis_before', function() {
 			echo 'Woohoo!';
 		});
 
-		add_action( 'wp_footer', array( $this->foo, 'bar' ) );
+		add_action( 'wp_footer', array( $this['foo'], 'bar' ) );
 	}
 }
