@@ -1,0 +1,33 @@
+{
+    "name": "gamajo/plugin-slug",
+    "description": "Test plugin setup for PSR-4",
+    "keywords": ["plugin", "plugin-slug"],
+    "type": "wordpress-plugin",
+    "homepage": "https://github.com/GaryJones/plugin-slug",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Gary Jones",
+            "email": "gamajo@gamajo.com",
+            "homepage": "http://gamajo.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/GaryJones/plugin-slug/issues",
+        "source": "https://github.com/GaryJones/plugin-slug"
+    },
+    "require": {
+        "php": ">=5.4",
+        "composer/installers": "~1.0",
+        "pimple/pimple": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gamajo\\PluginSlug\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
