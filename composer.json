@@ -8,7 +8,6 @@
     "authors": [
         {
             "name": "Gary Jones",
-            "email": "gamajo@gamajo.com",
             "homepage": "http://gamajo.com",
             "role": "Developer"
         }
@@ -18,10 +17,17 @@
         "source": "https://github.com/GaryJones/plugin-slug"
     },
     "require": {
-        "php": ">=5.4",
+        "php": ">=7.0",
         "composer/installers": "~1.0",
-        "pimple/pimple": "~3.0"
+        "brightnucleus/config": "^0.2",
+        "wpupdatephp/wp-update-php": "^1.0"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.5",
+        "wp-coding-standards/wpcs": "^0.9",
+        "phpunit/phpunit": "^5.2"
+    },
+
     "autoload": {
         "psr-4": {
             "Gamajo\\PluginSlug\\": "src/"
