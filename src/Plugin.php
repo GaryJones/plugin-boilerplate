@@ -1,28 +1,90 @@
 <?php
 /**
- * Main plugin file, hooking into WordPress.
+ * Main plugin file.
  *
  * @package   Gamajo\PluginSlug
  * @author    Gary Jones
- * @link      http://gamajo.com
- * @copyright 2015 Gary Jones, Gamajo Tech
+ * @copyright 2016 Gamajo Tech
  * @license   GPL-2.0+
  */
 
 namespace Gamajo\PluginSlug;
 
-use \Pimple\Container;
+use BrightNucleus\Config\ConfigInterface;
+use BrightNucleus\Config\ConfigTrait;
+use BrightNucleus\Exception\RuntimeException;
 
 /**
+ * Main plugin class.
  *
+ * @since   0.1.0
+ *
+ * @package Gamajo\PluginSlug
+ * @author  Gary Jones
  */
-class Plugin extends Container {
-	public function setup_hooks() {
-		// add hooks
-		add_action( 'genesis_before', function() {
-			echo 'Woohoo!';
-		});
+class Plugin {
 
-		add_action( 'wp_footer', array( $this['foo'], 'bar' ) );
+	use ConfigTrait;
+
+	/**
+	 * Static instance of the plugin.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @var self
+	 */
+	protected static $instance;
+
+	/**
+	 * Instantiate a Plugin object.
+	 *
+	 * Don't call the constructor directly, use the `Plugin::get_instance()`
+	 * static method instead.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @throws RuntimeException If the Config could not be parsed correctly.
+	 *
+	 * @param ConfigInterface $config Config to parametrize the object.
+	 */
+	public function __construct( ConfigInterface $config ) {
+		$this->processConfig( $config );
+	}
+
+	/**
+	 * Get a reference to the Plugin instance.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @throws RuntimeException If the Config could not be parsed correctly.
+	 *
+	 * @param ConfigInterface $config Optional. Config to parametrize the
+	 *                                object.
+	 * @return self
+	 */
+	public static function get_instance( ConfigInterface $config = null ) {
+		if ( ! self::$instance ) {
+			self::$instance = new self( $config );
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Launch the initialization process.
+	 *
+	 * @since 0.1.0
+	 */
+	public function run() {
+		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
+	}
+
+	/**
+	 * Load the plugin text domain.
+	 *
+	 * @since 0.1.0
+	 */
+	public function load_textdomain() {
+		load_plugin_textdomain( 'plugin-slug' );
 	}
 }
