@@ -4,40 +4,39 @@
  *
  * @package   Gamajo\PluginSlug
  * @author    Gary Jones
- * @link      http://gamajo.com/
- * @copyright 2015 Gary Jones, Gamajo Tech
+ * @copyright 2016 Gary Jones, Gamajo Tech
  * @license   GPL-2.0+
  *
  * @wordpress-plugin
  * Plugin Name: Plugin Boilerplate
- * Plugin URI:  http://gamajo.com/
- * Description: TODO
- * Version:     1.0.0
+ * Plugin URI:  https://github.com/garyjones/...
+ * Description: ...
+ * Version:     0.1.0
  * Author:      Gary Jones
- * Author URI:  http://gamajo.com/
+ * Author URI:  https://gamajo.com
  * Text Domain: plugin-slug
- * Domain Path: /lang
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 namespace Gamajo\PluginSlug;
 
+use BrightNucleus\Config\Config;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
-// register_activation_hook( __FILE__, array( 'PluginSlug', 'activate' ) );
-// register_deactivation_hook( __FILE__, array( 'PluginSlug', 'deactivate' ) );
-
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-	require __DIR__ . '/vendor/autoload.php';
+if ( ! defined( 'GAMAJO_PLUGINSLUG_DIR' ) ) {
+	define( 'GAMAJO_PLUGINSLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-$container = new \Pimple\Container;
-$container->register( new ServiceProvider() );
+// Load Composer autoloader.
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
+}
 
-$plugin_slug = $container['plugin'];
-$plugin_slug->setup_hooks();
+// Initialize the plugin.
+$config = new Config( include __DIR__ . '/config/defaults.php' );
+Plugin::get_instance( $config->getSubConfig( 'Gamajo\PluginSlug' ) )->run();
