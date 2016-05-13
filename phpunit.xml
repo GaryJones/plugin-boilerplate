@@ -1,27 +1,26 @@
-<phpunit
-        backupGlobals="false"
-        bootstrap="tests/bootstrap.php"
-        beStrictAboutOutputDuringTests="true"
-        beStrictAboutTestsThatDoNotTestAnything="true"
-        beStrictAboutTodoAnnotatedTests="true"
-        checkForUnintentionallyCoveredCode="true"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        forceCoversAnnotation="true"
-        showUncoveredFiles="true"
-        verbose="true"
->
-    <testsuites>
-        <testsuite>
-            <directory prefix="test-" suffix=".php">./tests/</directory>
-        </testsuite>
-    </testsuites>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.3/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         colors="true"
+         verbose="true">
+    <testsuite>
+        <directory suffix="Test.php">tests</directory>
+    </testsuite>
 
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+        <!--<log type="coverage-html" target="coverage"/>-->
+    </logging>
 </phpunit>
