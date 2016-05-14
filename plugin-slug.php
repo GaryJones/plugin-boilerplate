@@ -31,6 +31,9 @@ if ( ! defined( 'WPINC' ) ) {
 if ( ! defined( 'GAMAJO_PLUGINSLUG_DIR' ) ) {
 	define( 'GAMAJO_PLUGINSLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
+if ( ! defined( 'GAMAJO_PLUGINSLUG_URL' ) ) {
+	define( 'GAMAJO_PLUGINSLUG_URL', plugin_dir_url( __FILE__ ) );
+}
 
 // Load Composer autoloader.
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
