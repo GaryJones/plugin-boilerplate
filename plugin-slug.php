@@ -21,7 +21,7 @@
 
 namespace Gamajo\PluginSlug;
 
-use BrightNucleus\Config\Config;
+use BrightNucleus\Config\ConfigFactory;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -41,5 +41,5 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 // Initialize the plugin.
-$config = new Config( include __DIR__ . '/config/defaults.php' );
+$config = ConfigFactory::create( __DIR__ . '/config/defaults.php' );
 Plugin::get_instance( $config->getSubConfig( 'Gamajo\PluginSlug' ) )->run();
