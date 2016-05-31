@@ -13,6 +13,7 @@ namespace Gamajo\PluginSlug;
 use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Exception\RuntimeException;
+use BrightNucleus\Settings\Settings;
 
 /**
  * Main plugin class.
