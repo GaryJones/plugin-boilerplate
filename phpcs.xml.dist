@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="Gamajo PluginSlug">
+    <description>The code standard for Gamajo PluginSlug plugin.</description>
+    <file>.</file>
+    <exclude-pattern>node_modules/</exclude-pattern>
+    <exclude-pattern>vendor/</exclude-pattern>
+    <arg value="sp"/>
+    <arg name="extensions" value="php"/>
+    <arg name="report" value="full"/>
+    <arg name="report" value="summary"/>
+    <arg name="report" value="source"/>
+    <rule ref="WordPress">
+        <exclude name="WordPress.VIP"/>
+    </rule>
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="plugin-slug"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.WP.DeprecatedFunctions">
+		<properties>
+			<property name="minimum_supported_version" value="4.7"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
+		<properties>
+			<property name="blank_line_check" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array" value="plugin_slug"/>
+		</properties>
+	</rule>
+	<config name="testVersion" value="7.0-99.0"/>
+	<rule ref="PHPCompatibility"/>
+</ruleset>
