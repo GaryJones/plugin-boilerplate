@@ -22,7 +22,7 @@
 
 		<div class="bottom-buttons">
 			<?php
-			submit_button( __( 'Save Changes', 'pluginslug' ), 'primary', 'submit', false );
+			submit_button( __( 'Save Changes', 'plugin-slug' ), 'primary', 'submit', false );
 			?>
 		</div>
 	</form>

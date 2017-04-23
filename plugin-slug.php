@@ -28,11 +28,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( ! defined( 'GAMAJO_PLUGINSLUG_DIR' ) ) {
-	define( 'GAMAJO_PLUGINSLUG_DIR', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
+	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
-if ( ! defined( 'GAMAJO_PLUGINSLUG_URL' ) ) {
-	define( 'GAMAJO_PLUGINSLUG_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
+	define( 'PLUGIN_SLUG_URL', plugin_dir_url( __FILE__ ) );
 }
 
 // Load Composer autoloader.
@@ -41,5 +41,5 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 // Initialize the plugin.
-$config = ConfigFactory::create( __DIR__ . '/config/defaults.php' );
-Plugin::get_instance( $config->getSubConfig( 'Gamajo\PluginSlug' ) )->run();
+$plugin_slug_config = ConfigFactory::create( __DIR__ . '/config/defaults.php' );
+Plugin::get_instance( $plugin_slug_config->getSubConfig( 'Gamajo\PluginSlug' ) )->run();

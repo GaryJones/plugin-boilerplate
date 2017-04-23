@@ -12,9 +12,12 @@
 namespace Gamajo\PluginSlug;
 
 /**
- *
+ * Foo class.
  */
 class Foo {
+	/**
+	 * Bar.
+	 */
 	public function bar() {
 		echo 'Foo::bar()';
 	}
