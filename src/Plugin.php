@@ -12,7 +12,7 @@ namespace Gamajo\PluginSlug;
 
 use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
-use BrightNucleus\Exception\RuntimeException;
+use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Settings\Settings;
 
 /**
@@ -44,7 +44,7 @@ class Plugin {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @throws RuntimeException If the Config could not be parsed correctly.
+	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
 	 *
 	 * @param ConfigInterface $config Config to parametrize the object.
 	 */
@@ -57,7 +57,7 @@ class Plugin {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @throws RuntimeException If the Config could not be parsed correctly.
+	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
 	 *
 	 * @param ConfigInterface $config Optional. Config to parametrize the
 	 *                                object.
