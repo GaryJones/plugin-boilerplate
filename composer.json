@@ -3,8 +3,8 @@
     "description": "Test plugin setup for PSR-4",
     "keywords": ["plugin", "plugin-slug"],
     "type": "wordpress-plugin",
-    "homepage": "https://github.com/GaryJones/plugin-slug",
     "license": "GPL-2.0+",
+    "homepage": "https://github.com/GaryJones/plugin-slug",
     "authors": [
         {
             "name": "Gary Jones",
@@ -16,25 +16,42 @@
         "issues": "https://github.com/GaryJones/plugin-slug/issues",
         "source": "https://github.com/GaryJones/plugin-slug"
     },
+    "config": {
+        "sort-order": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=7.0",
-        "composer/installers": "~1.0",
         "brightnucleus/config": "^0.4",
-        "wpupdatephp/wp-update-php": "^1.0",
-        "brightnucleus/settings": "^0.1.4"
+        "brightnucleus/settings": "^0.1.4",
+        "composer/installers": "^1.2",
+        "roave/security-advisories": "dev-master",
+        "wpupdatephp/wp-update-php": "^1.1"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^2.6",
-        "wp-coding-standards/wpcs": "^0.9",
-        "phpunit/phpunit": "^5.3"
+        "brain/monkey": "^1.4",
+        "wimg/php-compatibility": "*",
+        "wp-coding-standards/wpcs": "dev-develop",
+        "phpunit/phpunit": "^6.1"
     },
-
     "autoload": {
         "psr-4": {
             "Gamajo\\PluginSlug\\": "src/"
         }
     },
-    "config": {
-        "optimize-autoloader": true
+    "autoload-dev": {
+        "psr-4": {
+            "Gamajo\\PluginSlug\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "install-sniffs": [
+            "\"vendor/bin/phpcs\" --config-set installed_paths ../../wp-coding-standards/wpcs",
+            "rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatability",
+            "cp -r vendor/wimg/php-compatibility vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility"
+        ],
+        "post-install-cmd": "@install-sniffs",
+        "post-update-cmd": "@install-sniffs"
     }
 }
