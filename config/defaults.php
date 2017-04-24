@@ -77,7 +77,7 @@ return [
 	'Gamajo' => [
 		'PluginSlug' => [
 			'Plugin'   => $plugin_slug_plugin,
-			'plugin_slug_Settings' => $settings,
+			'Settings' => $plugin_slug_settings,
 		],
 	],
 ];

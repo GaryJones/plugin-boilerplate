@@ -1,8 +1,11 @@
 <?php
 /**
- * PHPUnit bootstrap.
+ * PHPUnit bootstrap
  *
- * @package gistpress
+ * @package      Gamajo\PluginSlug\Tests
+ * @author       Gary Jones
+ * @copyright    2017 Gamajo
+ * @license      GPL-2.0+
  */
 
 $plugin_slug_tests_dir = getenv( 'WP_TESTS_DIR' );
@@ -23,3 +26,4 @@ tests_add_filter( 'muplugins_loaded', function() {
 
 // Start up the WP testing environment.
 require $plugin_slug_tests_dir . '/includes/bootstrap.php';
+
