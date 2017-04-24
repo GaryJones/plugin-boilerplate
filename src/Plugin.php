@@ -1,12 +1,14 @@
 <?php
 /**
- * Main plugin file.
+ * Main plugin file
  *
- * @package   Gamajo\PluginSlug
- * @author    Gary Jones
- * @copyright 2016 Gamajo Tech
- * @license   GPL-2.0+
+ * @package      Gamajo\PluginSlug
+ * @author       Gary Jones
+ * @copyright    2017 Gamajo
+ * @license      GPL-2.0+
  */
+
+declare( strict_types = 1 );
 
 namespace Gamajo\PluginSlug;
 

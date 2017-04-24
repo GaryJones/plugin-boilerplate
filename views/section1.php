@@ -2,10 +2,10 @@
 /**
  * Admin page section view
  *
- * @package   Gamajo\LinkedChat
- * @author    Gary Jones
- * @copyright 2016 Gamajo Tech
- * @license   GPL-2.0+
+ * @package      Gamajo\PluginSlug
+ * @author       Gary Jones
+ * @copyright    2017 Gamajo
+ * @license      GPL-2.0+
  */
 
 ?>

@@ -2,21 +2,22 @@
 /**
  * Plugin Name
  *
- * @package   Gamajo\PluginSlug
- * @author    Gary Jones
- * @copyright 2016 Gary Jones, Gamajo Tech
- * @license   GPL-2.0+
+ * @package      Gamajo\PluginSlug
+ * @author       Gary Jones
+ * @copyright    2017 Gamajo
+ * @license      GPL-2.0+
  *
  * @wordpress-plugin
- * Plugin Name: Plugin Boilerplate
- * Plugin URI:  https://github.com/garyjones/...
- * Description: ...
- * Version:     0.1.0
- * Author:      Gary Jones
- * Author URI:  https://gamajo.com
- * Text Domain: plugin-slug
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Plugin Name:       Plugin Boilerplate
+ * Plugin URI:        https://github.com/garyjones/...
+ * Description:       ...
+ * Version:           0.1.0
+ * Author:            Gary Jones
+ * Author URI:        https://gamajo.com
+ * Text Domain:       plugin-slug
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * GitHub Plugin URI: https://github.com/afragen/github-updater
  */
 
 namespace Gamajo\PluginSlug;
