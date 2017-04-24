@@ -46,12 +46,12 @@
         }
     },
     "scripts": {
-        "install-sniffs": [
+        "install-standards": [
             "\"vendor/bin/phpcs\" --config-set installed_paths ../../wp-coding-standards/wpcs",
-            "rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatability",
+            "rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility",
             "cp -r vendor/wimg/php-compatibility vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility"
         ],
-        "post-install-cmd": "@install-sniffs",
-        "post-update-cmd": "@install-sniffs"
+        "post-install-cmd": "@install-standards",
+        "post-update-cmd": "@install-standards"
     }
 }
