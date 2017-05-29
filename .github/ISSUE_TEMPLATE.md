@@ -26,8 +26,8 @@
 
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-* Version used:
-* Environment name and version (e.g. PHP 5.4 on nginx 1.9.1):
-* Server type and version:
-* Operating System and version:
-* Link to your project:
+- Version used:
+- Environment name and version (e.g. PHP 5.4):
+- Server type and version (e.g. Nginx 1.9.1):
+- Operating System and version (or Host and package):
+- Link to your project:
