@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
  * @since   1.0.0
  */
 abstract class TestCase extends PHPUnitTestCase {
-
 	use MockeryPHPUnitIntegration;
 
 	/**
@@ -35,7 +34,7 @@ abstract class TestCase extends PHPUnitTestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		Monkey::setUpWP();
+		Monkey\setUp();
 	}
 
 	/**
@@ -46,7 +45,7 @@ abstract class TestCase extends PHPUnitTestCase {
 	 * @return void
 	 */
 	protected function tearDown() {
-		Monkey::tearDownWP();
+		Monkey\tearDown();
 		parent::tearDown();
 	}
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b211fa1914ae356ccca8348f97187d3",
+    "content-hash": "ed58d244b074f039cbf8a63b2ccc6241",
     "packages": [
         {
             "name": "brightnucleus/config",
@@ -166,16 +166,16 @@
         },
         {
             "name": "composer/installers",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "d78064c68299743e0161004f2de3a0204e33b804"
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/d78064c68299743e0161004f2de3a0204e33b804",
-                "reference": "d78064c68299743e0161004f2de3a0204e33b804",
+                "url": "https://api.github.com/repos/composer/installers/zipball/79ad876c7498c0bbfe7eed065b8651c93bfd6045",
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045",
                 "shasum": ""
             },
             "require": {
@@ -217,12 +217,16 @@
             "keywords": [
                 "Craft",
                 "Dolibarr",
+                "Eliasis",
                 "Hurad",
                 "ImageCMS",
+                "Kanboard",
                 "MODX Evo",
                 "Mautic",
+                "Maya",
                 "OXID",
                 "Plentymarkets",
+                "Porto",
                 "RadPHP",
                 "SMF",
                 "Thelia",
@@ -245,9 +249,11 @@
                 "fuelphp",
                 "grav",
                 "installer",
+                "itop",
                 "joomla",
                 "kohana",
                 "laravel",
+                "lavalite",
                 "lithium",
                 "magento",
                 "mako",
@@ -262,6 +268,7 @@
                 "roundcube",
                 "shopware",
                 "silverstripe",
+                "sydes",
                 "symfony",
                 "typo3",
                 "wordpress",
@@ -269,7 +276,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2016-08-13T20:53:52+00:00"
+            "time": "2017-04-24T06:37:16+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -277,17 +284,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "1196fb8f4bf78e53204838bbdda6f10547541f12"
+                "reference": "ccffea64be8575eaa7ad09cd16dfeedfa4711607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1196fb8f4bf78e53204838bbdda6f10547541f12",
-                "reference": "1196fb8f4bf78e53204838bbdda6f10547541f12",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ccffea64be8575eaa7ad09cd16dfeedfa4711607",
+                "reference": "ccffea64be8575eaa7ad09cd16dfeedfa4711607",
                 "shasum": ""
             },
             "conflict": {
                 "adodb/adodb-php": "<5.20.6",
-                "amphp/artax": ">=2,<2.0.4|>0.7.1,<1.0.4",
+                "amphp/artax": ">=2,<2.0.6|<1.0.6",
                 "aws/aws-sdk-php": ">=3,<3.2.1",
                 "bugsnag/bugsnag-laravel": ">=2,<2.0.2",
                 "cakephp/cakephp": ">=3,<3.0.15|>=2,<2.4.99|>=2.5,<2.5.99|>=2.6,<2.6.12|>=1.3,<1.3.18|>=2.7,<2.7.6|>=3.1,<3.1.4",
@@ -307,8 +314,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=8,<8.2.7",
-                "drupal/drupal": ">=8,<8.2.7",
+                "drupal/core": ">=8,<8.2.8|>=8.3,<8.3.1",
+                "drupal/drupal": ">=8,<8.2.8|>=8.3,<8.3.1",
                 "firebase/php-jwt": "<2",
                 "friendsofsymfony/rest-bundle": ">=1.2,<1.2.2",
                 "friendsofsymfony/user-bundle": ">=1.2,<1.3.5",
@@ -404,20 +411,20 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-03-31T06:31:44+00:00"
+            "time": "2017-05-13T14:02:28+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.2.7",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "6a19be85237fe8bbd4975f86942b4763bb0da6ca"
+                "reference": "ff48982d295bcac1fd861f934f041ebc73ae40f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/6a19be85237fe8bbd4975f86942b4763bb0da6ca",
-                "reference": "6a19be85237fe8bbd4975f86942b4763bb0da6ca",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/ff48982d295bcac1fd861f934f041ebc73ae40f0",
+                "reference": "ff48982d295bcac1fd861f934f041ebc73ae40f0",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +433,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -458,7 +465,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2017-03-21T21:44:32+00:00"
+            "time": "2017-04-12T14:14:56+00:00"
         },
         {
             "name": "wpupdatephp/wp-update-php",
@@ -494,20 +501,20 @@
     "packages-dev": [
         {
             "name": "antecedent/patchwork",
-            "version": "1.3.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antecedent/patchwork.git",
-                "reference": "908a233f8a374f02b02ff5e3d6ba687ca506d57d"
+                "reference": "248daac9af59644ebf25ad1925f8780a7a5e4882"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/908a233f8a374f02b02ff5e3d6ba687ca506d57d",
-                "reference": "908a233f8a374f02b02ff5e3d6ba687ca506d57d",
+                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/248daac9af59644ebf25ad1925f8780a7a5e4882",
+                "reference": "248daac9af59644ebf25ad1925f8780a7a5e4882",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -520,8 +527,8 @@
                     "email": "ignas.rudaitis@gmail.com"
                 }
             ],
-            "description": "A pure PHP library that lets you redefine user-defined functions at runtime.",
-            "homepage": "http://antecedent.github.io/patchwork/",
+            "description": "Method redefinition (monkey-patching) functionality for PHP.",
+            "homepage": "http://patchwork2.org/",
             "keywords": [
                 "aop",
                 "aspect",
@@ -531,41 +538,45 @@
                 "runkit",
                 "testing"
             ],
-            "time": "2015-10-09T18:20:06+00:00"
+            "time": "2017-05-23T05:41:30+00:00"
         },
         {
             "name": "brain/monkey",
-            "version": "1.4.2",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brain-WP/BrainMonkey.git",
-                "reference": "61db1b4e44ddcc236127213723b95153bc66b40c"
+                "reference": "1e3d7a92968d110b5c82ab55b8d74f0a15aa00fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/61db1b4e44ddcc236127213723b95153bc66b40c",
-                "reference": "61db1b4e44ddcc236127213723b95153bc66b40c",
+                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/1e3d7a92968d110b5c82ab55b8d74f0a15aa00fd",
+                "reference": "1e3d7a92968d110b5c82ab55b8d74f0a15aa00fd",
                 "shasum": ""
             },
             "require": {
-                "antecedent/patchwork": "1.3.*",
-                "mockery/mockery": "*",
-                "php": ">=5.4.0"
+                "antecedent/patchwork": "2.0.*",
+                "mockery/mockery": "~0.9.0",
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "mockery/mockery": "0.9.3",
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "~5.7.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-version/1": "1.x-dev",
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Brain\\": "src/"
-                }
+                    "Brain\\Monkey\\": "src/"
+                },
+                "files": [
+                    "inc/patchwork-loader.php",
+                    "inc/api.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -575,7 +586,7 @@
                 {
                     "name": "Giuseppe Mazzapica",
                     "email": "giuseppe.mazzapica@gmail.com",
-                    "homepage": "http://gm.zoomlab.it",
+                    "homepage": "https://gmazzap.me",
                     "role": "Developer"
                 }
             ],
@@ -592,7 +603,7 @@
                 "test",
                 "testing"
             ],
-            "time": "2016-11-17T18:47:07+00:00"
+            "time": "2017-05-29T13:35:54+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1363,16 +1374,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.1.1",
+            "version": "6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9fbc261d90eda9e7ef9f7441d32997270f8e2019"
+                "reference": "42b7f394a8e009516582331b1e03a1aba40175d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9fbc261d90eda9e7ef9f7441d32997270f8e2019",
-                "reference": "9fbc261d90eda9e7ef9f7441d32997270f8e2019",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/42b7f394a8e009516582331b1e03a1aba40175d1",
+                "reference": "42b7f394a8e009516582331b1e03a1aba40175d1",
                 "shasum": ""
             },
             "require": {
@@ -1392,8 +1403,8 @@
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^4.0",
                 "sebastian/comparator": "^2.0",
-                "sebastian/diff": "^1.2",
-                "sebastian/environment": "^3.0",
+                "sebastian/diff": "^1.4.3 || ^2.0",
+                "sebastian/environment": "^3.0.2",
                 "sebastian/exporter": "^3.1",
                 "sebastian/global-state": "^1.1 || ^2.0",
                 "sebastian/object-enumerator": "^3.0.2",
@@ -1443,7 +1454,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-04-21T08:02:24+00:00"
+            "time": "2017-05-22T07:45:30+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1615,23 +1626,23 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.4.1",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e"
+                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/13edfd8706462032c2f52b4b862974dd46b71c9e",
-                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/7f066a26a962dbe58ddea9f72a4e82874a3975a4",
+                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
             },
             "type": "library",
             "extra": {
@@ -1663,20 +1674,20 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2015-12-08T07:14:41+00:00"
+            "time": "2017-05-22T07:24:03+00:00"
         },
         {
             "name": "sebastian/environment",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "11e7710b7724d42c62249b0e9d3030240398949d"
+                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/11e7710b7724d42c62249b0e9d3030240398949d",
-                "reference": "11e7710b7724d42c62249b0e9d3030240398949d",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
+                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
                 "shasum": ""
             },
             "require": {
@@ -1713,7 +1724,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-04-21T14:40:32+00:00"
+            "time": "2017-05-18T10:10:00+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -1784,23 +1795,23 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.1.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
+                "reference": "e8ba02eed7bbbb9e59e43dedd3dddeff4a56b0c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
-                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/e8ba02eed7bbbb9e59e43dedd3dddeff4a56b0c4",
+                "reference": "e8ba02eed7bbbb9e59e43dedd3dddeff4a56b0c4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.2"
+                "phpunit/phpunit": "^6.0"
             },
             "suggest": {
                 "ext-uopz": "*"
@@ -1808,7 +1819,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -1831,7 +1842,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2015-10-12T03:26:01+00:00"
+            "time": "2017-04-27T15:39:26+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -2065,16 +2076,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.8.1",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d"
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
-                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dcbed1074f8244661eecddfc2a675430d8d33f62",
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62",
                 "shasum": ""
             },
             "require": {
@@ -2139,7 +2150,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-03-01T22:17:45+00:00"
+            "time": "2017-05-22T02:43:20+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -2233,16 +2244,16 @@
         },
         {
             "name": "wimg/php-compatibility",
-            "version": "7.1.3",
+            "version": "7.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wimg/PHPCompatibility.git",
-                "reference": "043b66b582900fe2cc657a43aa55e3a8d4e63ce7"
+                "reference": "95e143e5937bb0e8aea45b1d79355a755bd911f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wimg/PHPCompatibility/zipball/043b66b582900fe2cc657a43aa55e3a8d4e63ce7",
-                "reference": "043b66b582900fe2cc657a43aa55e3a8d4e63ce7",
+                "url": "https://api.github.com/repos/wimg/PHPCompatibility/zipball/95e143e5937bb0e8aea45b1d79355a755bd911f1",
+                "reference": "95e143e5937bb0e8aea45b1d79355a755bd911f1",
                 "shasum": ""
             },
             "require": {
@@ -2276,7 +2287,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-04-02T23:43:45+00:00"
+            "time": "2017-05-06T19:28:14+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -2284,16 +2295,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "c4db415f6334bd03136d829a132833e469e46706"
+                "reference": "7763772ed2859ab86179714cd3ea5607531a7ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/c4db415f6334bd03136d829a132833e469e46706",
-                "reference": "c4db415f6334bd03136d829a132833e469e46706",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/7763772ed2859ab86179714cd3ea5607531a7ffb",
+                "reference": "7763772ed2859ab86179714cd3ea5607531a7ffb",
                 "shasum": ""
             },
             "require": {
-                "squizlabs/php_codesniffer": "^2.8.1"
+                "squizlabs/php_codesniffer": "^2.9.0"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -2312,7 +2323,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2017-04-16 04:18:50"
+            "time": "2017-05-15T15:51:13+00:00"
         }
     ],
     "aliases": [],

@@ -30,7 +30,7 @@
         "wpupdatephp/wp-update-php": "^1.1"
     },
     "require-dev": {
-        "brain/monkey": "^1.4",
+        "brain/monkey": "^2.0",
         "wimg/php-compatibility": "*",
         "wp-coding-standards/wpcs": "dev-develop",
         "phpunit/phpunit": "^6.1"
