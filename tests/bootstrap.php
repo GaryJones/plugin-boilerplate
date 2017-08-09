@@ -11,7 +11,7 @@
 $argv = $GLOBALS['argv'];
 $key = array_search( '--testsuite', $argv );
 
-if ( $key && 'Integration' === $argv[ $key + 1 ] ) {
+if ( $key && 'integration' === $argv[ $key + 1 ] ) {
 	$plugin_slug_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 	if ( ! $plugin_slug_tests_dir ) {
