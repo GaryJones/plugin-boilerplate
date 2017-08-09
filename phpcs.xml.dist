@@ -9,6 +9,9 @@
     <arg name="report" value="full"/>
     <arg name="report" value="summary"/>
     <arg name="report" value="source"/>
+    <rule ref="ObjectCalisthenics"/>
+    <rule ref="PHPCompatibility" />
+	<config name="testVersion" value="7.1-"/>
     <rule ref="WordPress">
         <exclude name="WordPress.VIP"/>
     </rule>
@@ -38,6 +41,4 @@
 			<property name="prefixes" type="array" value="plugin_slug"/>
 		</properties>
 	</rule>
-	<config name="testVersion" value="7.0-99.0"/>
-	<rule ref="PHPCompatibility"/>
 </ruleset>
