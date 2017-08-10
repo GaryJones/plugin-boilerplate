@@ -1,3 +1,6 @@
+cache:
+  apt: true
+
 language: php
 
 notifications:
@@ -6,17 +9,46 @@ notifications:
     on_failure: change
 
 php:
-  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0
 
 matrix:
+  fast_finish: true
   include:
-    - php: 7.0
-      env: WP_VERSION=latest WP_MULTISITE=1
+    # Run PHP CodeSniffer and XMLLint against just PHP 7.1 job.
+    - php: 7.1
+      env: WP_VERSION=latest WP_MULTISITE=1 SNIFF=1 LINT=1
+      addons:
+        apt:
+          packages:
+            - libxml2-utils
 
-before_script:
+  allow_failures:
+    # Allow failures for unstable builds
+    - php: 7.2
+    - php: nightly
+
+before_install:
+  - export XMLLINT_INDENT="	"
+
+install:
+  - composer install
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 
-script: phpunit
+script:
+  # Lint the PHP files against parse errors.
+  - if [[ "$LINT" == "1" ]]; then if find . -name "*.php" -maxdepth 1 -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi; fi
+  - if [[ "$LINT" == "1" ]]; then if find config src tests views -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi; fi
+  # Validate the xml files.
+  # @link http://xmlsoft.org/xmllint.html
+  - if [[ "$LINT" == "1" ]]; then xmllint --noout ./phpcs.xml.dist; fi
+  - if [[ "$LINT" == "1" ]]; then xmllint --noout --schema ./vendor/phpunit/phpunit/phpunit.xsd ./phpunit.xml.dist; fi
+  # Check coding standards.
+  - if [[ "$SNIFF" == "1" ]]; then ./vendor/bin/phpcs; fi
+  # Run tests.
+  - ./vendor/bin/phpunit --testsuite unit
+  - ./vendor/bin/phpunit --testsuite integration
