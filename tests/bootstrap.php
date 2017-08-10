@@ -8,10 +8,10 @@
  * @license      GPL-2.0+
  */
 
-$argv = $GLOBALS['argv'];
-$key = array_search( '--testsuite', $argv );
+$plugin_slug_argv = $GLOBALS['argv'];
+$plugin_slug_key  = array_search( '--testsuite', $plugin_slug_argv, true );
 
-if ( $key && 'integration' === $argv[ $key + 1 ] ) {
+if ( $plugin_slug_key && 'integration' === $plugin_slug_argv[ $plugin_slug_key + 1 ] ) {
 	$plugin_slug_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 	if ( ! $plugin_slug_tests_dir ) {
