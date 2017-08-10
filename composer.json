@@ -1,6 +1,6 @@
 {
     "name": "gamajo/plugin-slug",
-    "description": "Test plugin setup for PSR-4",
+    "description": "Test plugin",
     "keywords": ["plugin", "plugin-slug"],
     "type": "wordpress-plugin",
     "license": "GPL-2.0+",

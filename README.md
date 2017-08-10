@@ -53,7 +53,19 @@ This plugin supports the [GitHub Updater](https://github.com/afragen/github-upda
 
 Please see [CHANGELOG.md](CHANGELOG.md).
 
+## Contributing
+
+See the [contributing document](.github/CONTRIBUTING.md).
+
+## Support
+
+See the [support document](.github/SUPPORT.md).
+
+## Licensing
+
+The code in this project is licensed under [GPL v2 or later](LICENSE).
+
 ## Credits
 
 Built by [Gary Jones](https://twitter.com/GaryJ)  
-Copyright 2016 [Gamajo Tech](https://gamajo.com)
+Copyright 2017 [Gamajo Tech](https://gamajo.com)
