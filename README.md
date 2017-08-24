@@ -45,6 +45,12 @@ git clone git@github.com:GaryJones/plugin-slug.git
 
 Then go to your Plugins screen and click __Activate__.
 
+### Composer
+
+~~~sh
+compose require gamajo/plugin-slug
+~~~
+
 ## Updates
 
 This plugin supports the [GitHub Updater](https://github.com/afragen/github-updater) plugin, so if you install that, this plugin becomes automatically updateable direct from GitHub.
