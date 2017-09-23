@@ -12,6 +12,7 @@
 	<rule ref="ObjectCalisthenics"/>
 	<rule ref="PHPCompatibility"/>
 	<config name="testVersion" value="7.1-"/>
+	<config name="minimum_supported_wp_version" value="4.7"/>
 	<rule ref="WordPress">
 		<exclude name="WordPress.VIP"/>
 	</rule>
@@ -21,24 +22,19 @@
 		</properties>
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array" value="plugin_slug"/>
+		</properties>
+	</rule>
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array" value="plugin-slug"/>
 		</properties>
 	</rule>
-	<rule ref="WordPress.WP.DeprecatedFunctions">
-		<properties>
-			<property name="minimum_supported_version" value="4.7"/>
-		</properties>
-	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
 		<properties>
 			<property name="blank_line_check" value="true"/>
-		</properties>
-	</rule>
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-		<properties>
-			<property name="prefixes" type="array" value="plugin_slug"/>
 		</properties>
 	</rule>
 </ruleset>
