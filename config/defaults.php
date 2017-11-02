@@ -17,12 +17,12 @@ $plugin_slug_plugin = [
 $plugin_slug_settings = [
 	'submenu_pages' => [
 		[
-			'parent_slug' => 'options-general.php',
-			'page_title'  => __( 'Plugin Slug Settings', 'plugin-slug' ),
-			'menu_title'  => __( 'Plugin Slug', 'plugin-slug' ),
-			'capability'  => 'manage_options',
-			'menu_slug'   => 'plugin-slug',
-			'view'        => PLUGIN_SLUG_DIR . 'views/admin-page.php',
+			'parent_slug'  => 'options-general.php',
+			'page_title'   => __( 'Plugin Slug Settings', 'plugin-slug' ),
+			'menu_title'   => __( 'Plugin Slug', 'plugin-slug' ),
+			'capability'   => 'manage_options',
+			'menu_slug'    => 'plugin-slug',
+			'view'         => PLUGIN_SLUG_DIR . 'views/admin-page.php',
 			'dependencies' => [
 				'styles'   => [],
 				'scripts'  => [
@@ -33,6 +33,10 @@ $plugin_slug_settings = [
 						'ver'       => '1.2.3',
 						'in_footer' => true,
 						'is_needed' => function ( $context ) {
+							if ( $context ) {
+								return false;
+							}
+
 							return true;
 						},
 						'localize'  => [
@@ -53,7 +57,7 @@ $plugin_slug_settings = [
 			],
 		],
 	],
-	'settings'    => [
+	'settings'      => [
 		'setting1' => [
 			'option_group'      => 'pluginslug',
 			'sanitize_callback' => null,
