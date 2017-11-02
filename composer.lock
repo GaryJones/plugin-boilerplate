@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17ef758b1899e715309b9e4f4b64f3a6",
+    "content-hash": "9338d28325d973f870f84651baca1696",
     "packages": [
         {
             "name": "brightnucleus/config",
@@ -2247,6 +2247,34 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "sirbrillig/phpcs-variable-analysis",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sirbrillig/phpcs-variable-analysis.git",
+                "reference": "6f34e7d5c38871239958cdcb681e547799fc8285"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sirbrillig/phpcs-variable-analysis/zipball/6f34e7d5c38871239958cdcb681e547799fc8285",
+                "reference": "6f34e7d5c38871239958cdcb681e547799fc8285",
+                "shasum": ""
+            },
+            "type": "phpcodesniffer-standard",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Payton Swick",
+                    "email": "payton@foolord.com"
+                }
+            ],
+            "description": "A PHPCS sniff to detect problems with variables.",
+            "time": "2017-11-01T17:42:07+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

@@ -34,6 +34,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
         "object-calisthenics/phpcs-calisthenics-rules": "^3",
         "phpunit/phpunit": "^6.3",
+        "sirbrillig/phpcs-variable-analysis": "^1.0",
         "wimg/php-compatibility": "dev-master",
         "wp-coding-standards/wpcs": "dev-develop"
     },
