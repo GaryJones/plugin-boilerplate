@@ -25,10 +25,10 @@ matrix:
       addons:
         apt:
           packages:
-            - libxml2-utils
+            - libxml2-utils # Needed for XML linting.
 
   allow_failures:
-    # Allow failures for unstable builds
+    # Allow failures for unstable builds.
     - php: 7.2
     - php: nightly
 
@@ -43,12 +43,16 @@ script:
   # Lint the PHP files against parse errors.
   - if [[ "$LINT" == "1" ]]; then if find . -name "*.php" -maxdepth 1 -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi; fi
   - if [[ "$LINT" == "1" ]]; then if find config src tests views -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi; fi
-  # Validate the xml files.
+
+  # Validate the XML files.
   # @link http://xmlsoft.org/xmllint.html
   - if [[ "$LINT" == "1" ]]; then xmllint --noout ./phpcs.xml.dist; fi
   - if [[ "$LINT" == "1" ]]; then xmllint --noout --schema ./vendor/phpunit/phpunit/phpunit.xsd ./phpunit.xml.dist; fi
-  # Check coding standards.
-  - if [[ "$SNIFF" == "1" ]]; then ./vendor/bin/phpcs; fi
+
+  # Check coding standards. Run through composer script, to allow
+  # PHP 5.2 compatibility check of main plugin file.
+  - if [[ "$SNIFF" == "1" ]]; then composer phpcs; fi
+
   # Run tests.
   - ./vendor/bin/phpunit --testsuite unit
   - ./vendor/bin/phpunit --testsuite integration
