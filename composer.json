@@ -31,11 +31,11 @@
         "wpupdatephp/wp-update-php": "^1.1"
     },
     "require-dev": {
-        "brain/monkey": "^2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
+        "brain/monkey": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
         "object-calisthenics/phpcs-calisthenics-rules": "^3",
-        "phpunit/phpunit": "^6.3",
-        "sirbrillig/phpcs-variable-analysis": "^1.0",
+        "phpunit/phpunit": "^6.4",
+        "sirbrillig/phpcs-variable-analysis": "^2.0",
         "wimg/php-compatibility": "dev-master",
         "wp-coding-standards/wpcs": "dev-develop"
     },
