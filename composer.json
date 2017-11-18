@@ -33,6 +33,7 @@
     "require-dev": {
         "brain/monkey": "^2.1",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+        "infection/infection": "0.6.*",
         "object-calisthenics/phpcs-calisthenics-rules": "^3",
         "phpunit/phpunit": "^6.4",
         "sirbrillig/phpcs-variable-analysis": "^2.0",

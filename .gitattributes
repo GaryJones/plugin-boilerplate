@@ -6,6 +6,7 @@
 
 /.github            export-ignore
 /bin                export-ignore
+/logs               export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore
 /.gitattributes     export-ignore
