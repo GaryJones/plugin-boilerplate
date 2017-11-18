@@ -35,4 +35,12 @@ class FooTest extends TestCase {
 		// Replace this with some actual testing code.
 		static::assertFalse( false );
 	}
+
+	/**
+	 * A single example test.
+	 */
+	public function test_bar() {
+		// Replace this with some actual testing code.
+		static::assertEquals( 'Foo::bar()', ( new Testee() )->bar() );
+	}
 }

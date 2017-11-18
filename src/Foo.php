@@ -20,7 +20,7 @@ class Foo {
 	 * Bar.
 	 */
 	public function bar() {
-		echo 'Foo::bar()';
+		return 'Foo::bar()';
 	}
 
 	/**
