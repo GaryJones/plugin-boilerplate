@@ -6,6 +6,6 @@
         ]
     },
     "logs": {
-        "text": "logs/infection-log.txt"
+        "text": "logs/infection.log"
     }
 }

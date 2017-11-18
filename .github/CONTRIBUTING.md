@@ -24,7 +24,7 @@ When contributing please ensure you follow the guidelines below so that we can k
 
 - Run unit tests: `phpcs`
 - Run integration tests: `phpcs --testsuite integration`
-- Run mutation tests: `infection -s -v`
+- Run mutation tests: `infection` (see `logs/infection.log`)
 - Run code standards: `composer phpcs`
 
 ## Code Documentation
