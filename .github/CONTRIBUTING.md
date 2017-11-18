@@ -20,6 +20,13 @@ When contributing please ensure you follow the guidelines below so that we can k
 - When committing, reference your issue (if present) and include a note about the fix.
 - Push the changes to your fork and submit a pull request to the 'develop' branch of the ... repository.
 
+### Checking You Changes
+
+- Run unit tests: `phpcs`
+- Run integration tests: `phpcs --testsuite integration`
+- Run mutation tests: `infection -s -v`
+- Run code standards: `composer phpcs`
+
 ## Code Documentation
 
 - Please make sure that every method is documented well and the documentation follows the standards.
