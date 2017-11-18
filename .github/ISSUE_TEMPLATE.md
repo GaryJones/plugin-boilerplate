@@ -1,4 +1,16 @@
-<!--- Provide a general summary of the issue in the Title above -->
+## Your Environment
+
+| Question    | Answer
+| ------------| ---------------
+| Plugin version    | x.y.z
+| WordPress version | x.y.z
+| PHP version       | x.y.z
+| Github Repo       | -
+
+<!-- Please complete the above table with correct information. -->
+
+## Context
+<!--- What are you trying to accomplish? -->
 
 ## Expected Behavior
 <!--- If you're describing a bug, tell us what should happen -->
@@ -9,7 +21,7 @@
 <!--- If suggesting a change/improvement, explain the difference from current behavior -->
 
 ## Possible Solution
-<!--- Not obligatory, but suggest a fix/reason for the bug, -->
+<!--- Optionally suggest a fix/reason for the bug, -->
 <!--- or ideas how to implement the addition or change -->
 
 ## Steps to Reproduce (for bugs)
@@ -19,15 +31,3 @@
 2.
 3.
 4.
-
-## Context
-<!--- How has this issue affected you? What are you trying to accomplish? -->
-<!--- Providing context helps us come up with a solution that is most useful in the real world -->
-
-## Your Environment
-<!--- Include as many relevant details about the environment you experienced the bug in -->
-- Version used:
-- Environment name and version (e.g. PHP 5.4):
-- Server type and version (e.g. Nginx 1.9.1):
-- Operating System and version (or Host and package):
-- Link to your project:
