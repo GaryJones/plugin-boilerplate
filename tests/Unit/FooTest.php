@@ -2,7 +2,7 @@
 /**
  * Unit tests for Foo
  *
- * @package      Gamajo\PluginSlug\Tests\Integration
+ * @package      Gamajo\PluginSlug\Tests\Unit
  * @author       Gary Jones
  * @copyright    2017 Gamajo
  * @license      GPL-2.0+

@@ -11,7 +11,8 @@
 namespace Gamajo\PluginSlug;
 
 $plugin_slug_plugin = [
-	'textdomain' => 'plugin-slug',
+	'textdomain'    => 'plugin-slug',
+	'languages_dir' => 'languages',
 ];
 
 $plugin_slug_settings = [

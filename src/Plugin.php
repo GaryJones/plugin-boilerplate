@@ -65,7 +65,7 @@ class Plugin {
 	 *                                object.
 	 * @return self
 	 */
-	public static function get_instance( ConfigInterface $config = null ) {
+	public static function get_instance( ConfigInterface $config = null ) : Plugin {
 		if ( ! self::$instance ) {
 			self::$instance = new self( $config );
 		}
@@ -78,8 +78,8 @@ class Plugin {
 	 *
 	 * @since 0.1.0
 	 */
-	public function run() {
-		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
+	public function run(): void {
+		\add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
 
 		// Initialize admin page.
 		$admin_page = new Settings( $this->config->getSubConfig( 'Settings' ) );
@@ -91,7 +91,13 @@ class Plugin {
 	 *
 	 * @since 0.1.0
 	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( $this->config->getKey( 'Plugin/textdomain' ) );
+	public function load_textdomain(): void {
+		$text_domain   = $this->config->getKey( 'Plugin.textdomain' );
+		$languages_dir = 'languages';
+		if ( $this->config->hasKey( 'Plugin/languages_dir' ) ) {
+			$languages_dir = $this->config->getKey( 'Plugin.languages_dir' );
+		}
+
+		\load_plugin_textdomain( $text_domain, false, $text_domain . '/' . $languages_dir );
 	}
 }
