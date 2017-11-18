@@ -55,25 +55,6 @@ class Plugin {
 	}
 
 	/**
-	 * Get a reference to the Plugin instance.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
-	 *
-	 * @param ConfigInterface $config Optional. Config to parametrize the
-	 *                                object.
-	 * @return self
-	 */
-	public static function get_instance( ConfigInterface $config = null ) : Plugin {
-		if ( ! self::$instance ) {
-			self::$instance = new self( $config );
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Launch the initialization process.
 	 *
 	 * @since 0.1.0

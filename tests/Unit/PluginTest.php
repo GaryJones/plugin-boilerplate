@@ -64,7 +64,7 @@ class PluginTest extends TestCase {
 	 */
 	public function test_load_plugin_textdomain_method_is_hooked_in_correctly() {
 		// Create an instance of the class under test.
-		$plugin = Testee::get_instance( $this->mock_config );
+		$plugin = new Testee( $this->mock_config );
 		$plugin->run();
 
 		// Check the plugin method that loads the text domain is hooked into the right filter.
@@ -80,7 +80,7 @@ class PluginTest extends TestCase {
 			->with( 'apple', false, 'apple/banana' );
 
 		// Create an instance of the class under test.
-		$plugin = Testee::get_instance( $this->mock_config );
+		$plugin = new Testee( $this->mock_config );
 		$plugin->{$this->load_textdomain_callback}();
 	}
 }

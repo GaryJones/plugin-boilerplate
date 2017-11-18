@@ -29,10 +29,10 @@ if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
 }
 
 // Load Composer autoloader.
-if ( file_exists( plugin_dir_path( __FILE__ ) . '/vendor/autoload.php' ) ) {
-	require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
 // Initialize the plugin.
-$plugin_slug_config = ConfigFactory::create( __DIR__ . '/config/defaults.php' );
-Plugin::get_instance( $plugin_slug_config->getSubConfig( 'Gamajo\PluginSlug' ) )->run();
+$GLOBALS['plugin_slug'] = new Plugin( ConfigFactory::create( __DIR__ . '/config/defaults.php' )->getSubConfig( 'Gamajo\PluginSlug' ) );
+$GLOBALS['plugin_slug']->run();
