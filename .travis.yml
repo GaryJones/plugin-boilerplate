@@ -21,13 +21,12 @@ before_install:
 install: composer install --no-interaction
 
 stages:
- - lint
+ - lint and code standards
  - test
- - code standards
 
 jobs:
   include:
-    - stage: lint
+    - stage: lint and code standards
       php: 7.1
       addons:
         apt:
@@ -42,8 +41,10 @@ jobs:
         - xmllint --noout --schema ./vendor/phpunit/phpunit/phpunit.xsd ./phpunit.xml.dist
 
         # Lint the PHP files against parse errors.
-        - if find . -maxdepth 1  -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi # Top-level files
-        - if find config src tests views -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi # All other files
+        - if find . -path ./vendor -prune -o -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi
+
+        # Check code standards
+        - composer phpcs
 
     - stage: test
       env: WP_VERSION=latest WP_MULTISITE=1
@@ -57,10 +58,6 @@ jobs:
         - vendor/bin/phpunit --testsuite unit
         - vendor/bin/infection
         - vendor/bin/phpunit --testsuite integration
-
-    - stage: code standards
-      php: 7.1
-      script: composer phpcs
 
   fast_finish: true
   allow_failures:
