@@ -4,9 +4,6 @@ sudo: false
 
 language: php
 
-cache:
-  apt: true
-
 notifications:
   email:
     on_success: never
@@ -17,17 +14,16 @@ php:
   - 7.2
   - nightly
 
-env:
-  - WP_VERSION=latest WP_MULTISITE=0
-
 before_install:
   # Turn off Xdebug
   - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
-  - composer self-update
 
-install:
-  - composer install --no-interaction
-  - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+install: composer install --no-interaction
+
+stages:
+ - lint
+ - test
+ - code standards
 
 jobs:
   include:
@@ -45,21 +41,24 @@ jobs:
         - xmllint --noout ./phpcs.xml.dist
         - xmllint --noout --schema ./vendor/phpunit/phpunit/phpunit.xsd ./phpunit.xml.dist
 
-      script:
         # Lint the PHP files against parse errors.
-        - if find . -name "*.php" -maxdepth 1 -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi
-        - if find config src tests views -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi
+        - if find . -maxdepth 1  -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi # Top-level files
+        - if find config src tests views -name "*.php" -exec php -l {} \; | grep "^[Parse error|Fatal error]"; then exit 1; fi # All other files
 
     - stage: test
       env: WP_VERSION=latest WP_MULTISITE=1
+      install:
+        - composer install --no-interaction
+        - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
       before_script:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
-      script: vendor/bin/phpunit --testsuite unit
-      script: vendor/bin/phpunit --testsuite integration
-      script: vendor/bin/infection
+      script:
+        - vendor/bin/phpunit --testsuite unit
+        - vendor/bin/infection
+        - vendor/bin/phpunit --testsuite integration
 
-    - stage: Code Standards
+    - stage: code standards
       php: 7.1
       script: composer phpcs
 
@@ -67,3 +66,8 @@ jobs:
   allow_failures:
       # Allow failures for unstable builds.
       - php: nightly
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.composer/cache
