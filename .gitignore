@@ -1,5 +1,6 @@
-logs/
-node_modules/
-vendor/
-phpcs.xml
-phpunit.xml
+/logs/
+/node_modules/
+/vendor/
+/.phpcs.xml
+/phpcs.xml
+/phpunit.xml
