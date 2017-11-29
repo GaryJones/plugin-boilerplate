@@ -22,8 +22,8 @@ When contributing please ensure you follow the guidelines below so that we can k
 
 ### Checking You Changes
 
-- Run unit tests: `phpcs`
-- Run integration tests: `phpcs --testsuite integration`
+- Run unit tests: `phpunit`
+- Run integration tests: `phpunit --testsuite integration`
 - Run mutation tests: `infection` (see `logs/infection.log`)
 - Run code standards: `composer phpcs`
 

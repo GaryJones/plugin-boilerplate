@@ -27,7 +27,7 @@ class PluginTest extends TestCase {
 	 *
 	 * @var string
 	 */
-	private $load_textdomain_callback = 'load_textdomain';
+	private $load_textdomain_callback;
 
 	/**
 	 * Plugin config for these unit tests.
