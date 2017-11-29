@@ -9,6 +9,7 @@
 
 	<!-- How to scan -->
 	<arg value="sp"/> <!-- Show sniff and progress -->
+	<arg name="basepath" value="."/><!-- Strip the file paths down to the relevant bit -->
 	<arg name="colors" />
 	<arg name="extensions" value="php"/>
 	<arg name="report" value="full"/>
