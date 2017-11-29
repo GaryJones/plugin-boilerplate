@@ -1,7 +1,10 @@
 {
     "name": "gamajo/plugin-slug",
     "description": "Test plugin",
-    "keywords": ["plugin", "plugin-slug"],
+    "keywords": [
+        "plugin",
+        "plugin-slug"
+    ],
     "type": "wordpress-plugin",
     "license": "GPL-2.0+",
     "homepage": "https://github.com/GaryJones/plugin-slug",
@@ -36,6 +39,7 @@
         "infection/infection": "0.6.*",
         "object-calisthenics/phpcs-calisthenics-rules": "^3",
         "phpunit/phpunit": "^6.4",
+        "squizlabs/php_codesniffer": "^3.1",
         "sirbrillig/phpcs-variable-analysis": "^2.0",
         "wimg/php-compatibility": "dev-master",
         "wp-coding-standards/wpcs": "dev-develop"
