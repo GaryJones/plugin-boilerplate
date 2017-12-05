@@ -31,6 +31,7 @@
     "brightnucleus/dependencies": "^0.3.1",
     "composer/installers": "^1.4",
     "roave/security-advisories": "dev-master",
+    "sllh/composer-versions-check": "^2.0",
     "wpupdatephp/wp-update-php": "^1.1"
   },
   "require-dev": {
