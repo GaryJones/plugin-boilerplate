@@ -19,7 +19,7 @@ class Foo {
 	/**
 	 * Bar.
 	 */
-	public function bar() {
+	public function bar(): string {
 		return 'Foo::bar()';
 	}
 
@@ -28,7 +28,7 @@ class Foo {
 	 *
 	 * @return bool
 	 */
-	public function is_true() : bool {
+	public function is_true(): bool {
 		return true;
 	}
 }
