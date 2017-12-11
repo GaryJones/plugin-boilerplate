@@ -8,6 +8,9 @@
  * @license      GPL-2.0+
  */
 
+// Check for a `--testsuite integration` arg when calling
+// phpunit, and use it to conditionally load up WordPress.
+
 $plugin_slug_argv = $GLOBALS['argv'];
 $plugin_slug_key  = array_search( '--testsuite', $plugin_slug_argv, true );
 
