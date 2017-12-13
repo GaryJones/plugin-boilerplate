@@ -24,7 +24,6 @@ class FooTest extends WP_UnitTestCase {
 	 */
 	public function test_foo() {
 		// Replace this with some actual integration testing code.
-		/** @noinspection PhpUndefinedMethodInspection */
 		static::assertTrue( ( new Testee() )->is_true() );
 	}
 }
