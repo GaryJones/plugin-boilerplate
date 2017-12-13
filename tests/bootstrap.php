@@ -8,6 +8,10 @@
  * @license      GPL-2.0+
  */
 
+declare( strict_types = 1 );
+
+namespace Gamajo\PluginSlug\Tests;
+
 // Check for a `--testsuite integration` arg when calling phpunit, and use it to conditionally load up WordPress.
 $plugin_slug_argv = $GLOBALS['argv'];
 $plugin_slug_key  = array_search( '--testsuite', $plugin_slug_argv, true );
@@ -25,7 +29,7 @@ if ( $plugin_slug_key && 'integration' === $plugin_slug_argv[ $plugin_slug_key +
 	/**
 	 * Manually load the plugin being tested.
 	 */
-	tests_add_filter( 'muplugins_loaded', function () {
+	\tests_add_filter( 'muplugins_loaded', function () {
 		require dirname( __DIR__ ) . '/plugin-slug.php';
 	} );
 
