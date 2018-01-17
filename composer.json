@@ -1,65 +1,65 @@
 {
-  "name": "gamajo/plugin-slug",
-  "description": "Test plugin",
-  "keywords": [
-    "plugin",
-    "plugin-slug"
-  ],
-  "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
-  "homepage": "https://github.com/GaryJones/plugin-slug",
-  "authors": [
-    {
-      "name": "Gary Jones",
-      "homepage": "https://gamajo.com",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/GaryJones/plugin-slug/issues",
-    "source": "https://github.com/GaryJones/plugin-slug"
-  },
-  "config": {
-    "sort-order": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require": {
-    "php": "^7.1",
-    "brightnucleus/config": "^0.4",
-    "brightnucleus/settings": "^0.1.4",
-    "brightnucleus/dependencies": "^0.3.1",
-    "composer/installers": "^1.4",
-    "roave/security-advisories": "dev-master",
-    "sllh/composer-versions-check": "^2.0",
-    "wpupdatephp/wp-update-php": "^1.1"
-  },
-  "require-dev": {
-    "brain/monkey": "^2.1",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-    "infection/infection": "0.6.*",
-    "object-calisthenics/phpcs-calisthenics-rules": "^3",
-    "phpunit/phpunit": "^6.4",
-    "squizlabs/php_codesniffer": "^3.1",
-    "sirbrillig/phpcs-variable-analysis": "^2.0",
-    "wimg/php-compatibility": "dev-master",
-    "wp-coding-standards/wpcs": "dev-develop"
-  },
-  "autoload": {
-    "psr-4": {
-      "Gamajo\\PluginSlug\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Gamajo\\PluginSlug\\Tests\\": "tests/"
-    }
-  },
-  "scripts": {
-    "test": "./vendor/bin/phpunit",
-    "install-codestandards": [
-      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-    ],
-    "phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2"
-  }
+	"name": "gamajo/plugin-slug",
+	"description": "Test plugin",
+	"keywords": [
+		"plugin",
+		"plugin-slug"
+	],
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://github.com/GaryJones/plugin-slug",
+	"authors": [
+		{
+			"name": "Gary Jones",
+			"homepage": "https://gamajo.com",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/GaryJones/plugin-slug/issues",
+		"source": "https://github.com/GaryJones/plugin-slug"
+	},
+	"config": {
+		"sort-order": true
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": "^7.1",
+		"brightnucleus/config": "^0.4",
+		"brightnucleus/settings": "^0.1.4",
+		"brightnucleus/dependencies": "^0.3.1",
+		"composer/installers": "^1.4",
+		"roave/security-advisories": "dev-master",
+		"sllh/composer-versions-check": "^2.0",
+		"wpupdatephp/wp-update-php": "^1.1"
+	},
+	"require-dev": {
+		"brain/monkey": "^2.2",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+		"infection/infection": "^0.7",
+		"object-calisthenics/phpcs-calisthenics-rules": "^3",
+		"phpunit/phpunit": "^6.5",
+		"squizlabs/php_codesniffer": "^3.2",
+		"sirbrillig/phpcs-variable-analysis": "^2.0",
+		"wimg/php-compatibility": "dev-master",
+		"wp-coding-standards/wpcs": "dev-develop"
+	},
+	"autoload": {
+		"psr-4": {
+			"Gamajo\\PluginSlug\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Gamajo\\PluginSlug\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test": "./vendor/bin/phpunit",
+		"install-codestandards": [
+			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+		],
+		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2"
+	}
 }
