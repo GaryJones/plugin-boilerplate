@@ -20,7 +20,7 @@
 		"source": "https://github.com/GaryJones/plugin-slug"
 	},
 	"config": {
-		"sort-order": true
+		"sort-packages": true
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
