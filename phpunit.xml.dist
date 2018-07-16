@@ -27,4 +27,8 @@
 		<log type="coverage-text" target="php://stdout"/>
 		<!--<log type="coverage-html" target="coverage"/>-->
 	</logging>
+
+	<listeners>
+		<listener class="Ozh\PHPUnit\Listener\OverAssertiveTestsListener" file="vendor/ozh/phpunit-overassertive/src/Ozh/PhpUnit/Listener/OverAssertiveTestsListener.php"/>
+	</listeners>
 </phpunit>
