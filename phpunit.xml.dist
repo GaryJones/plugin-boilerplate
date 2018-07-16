@@ -29,6 +29,7 @@
 	</logging>
 
 	<listeners>
+		<listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener"/>
 		<listener class="Ozh\PHPUnit\Listener\OverAssertiveTestsListener" file="vendor/ozh/phpunit-overassertive/src/Ozh/PhpUnit/Listener/OverAssertiveTestsListener.php"/>
 	</listeners>
 </phpunit>
