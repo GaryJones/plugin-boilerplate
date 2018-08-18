@@ -37,7 +37,7 @@ jobs:
       script:
         # Validate the XML files.
         # @link http://xmlsoft.org/xmllint.html
-        - xmllint --noout ./phpcs.xml.dist
+        - xmllint --noout ./.phpcs.xml.dist
         - xmllint --noout --schema ./vendor/phpunit/phpunit/phpunit.xsd ./phpunit.xml.dist
 
         # Lint the PHP files against parse errors.
@@ -52,6 +52,7 @@ jobs:
         - composer install --no-interaction
         - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
       before_script:
+        # Re-enable Xdebug.
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
