@@ -22,9 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
+	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
 	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
 if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
+	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
 	define( 'PLUGIN_SLUG_URL', plugin_dir_url( __FILE__ ) );
 }
 

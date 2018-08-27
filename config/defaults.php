@@ -8,6 +8,8 @@
  * @license      GPL-2.0+
  */
 
+declare( strict_types = 1 );
+
 namespace Gamajo\PluginSlug;
 
 $plugin_slug_plugin = [
@@ -33,7 +35,7 @@ $plugin_slug_settings = [
 						'deps'      => [ 'jquery' ],
 						'ver'       => '1.2.3',
 						'in_footer' => true,
-						'is_needed' => function ( $context ) {
+						'is_needed' => function ( $context ): bool {
 							if ( $context ) {
 								return false;
 							}
@@ -42,7 +44,7 @@ $plugin_slug_settings = [
 						},
 						'localize'  => [
 							'name' => 'pluginSlugI18n',
-							'data' => function ( $context ) {
+							'data' => function ( $context ): array {
 								return [
 									'test_localize_data' => 'test_localize_value',
 									'context'            => $context,

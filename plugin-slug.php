@@ -24,6 +24,8 @@
  * Requires WP:       4.7
  */
 
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;

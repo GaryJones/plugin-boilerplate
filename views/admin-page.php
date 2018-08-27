@@ -8,6 +8,7 @@
  * @license      GPL-2.0+
  */
 
+declare( strict_types = 1 );
 ?>
 <div class="wrap">
 	<form method="post" action="options.php">
