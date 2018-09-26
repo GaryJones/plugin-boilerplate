@@ -7,7 +7,7 @@
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
  * @copyright    2017 Gamajo
- * @license      GPL-2.0+
+ * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       Plugin Boilerplate
@@ -17,14 +17,12 @@
  * Author:            Gary Jones
  * Author URI:        https://gamajo.com
  * Text Domain:       plugin-slug
- * License:           GPL-2.0+
+ * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * GitHub Plugin URI: https://github.com/garyjones/...
  * Requires PHP:      7.1
  * Requires WP:       4.7
  */
-
-declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -64,8 +62,9 @@ if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
 		?>
 		<div class="updated"><p><?php echo wp_kses_post( $notice ); ?></p></div>
 		<?php
-		if ( isset( $_GET['activate'] ) ) { // WPCS: input var okay, CSRF okay.
-			unset( $_GET['activate'] ); // WPCS: input var okay.
+		// phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
 		}
 	}
 
