@@ -71,4 +71,8 @@
 	<rule ref="NeutronStandard.AssignAlign.DisallowAssignAlign.Aligned">
 		<severity>0</severity>
 	</rule>
+
+	<rule ref="NeutronStandard.StrictTypes.RequireStrictTypes.StrictTypes">
+		<exclude-pattern>plugin-slug.php</exclude-pattern>
+	</rule>
 </ruleset>
