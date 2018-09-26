@@ -49,9 +49,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-		"install-codestandards": [
-			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-		],
+		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
 		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
 		"test": "./vendor/bin/phpunit"
 	},
