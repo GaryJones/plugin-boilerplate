@@ -61,10 +61,6 @@ class Plugin {
 	 */
 	public function run(): void {
 		\add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
-
-		// Initialize admin page.
-		$admin_page = new Settings( $this->config->getSubConfig( 'Settings' ) );
-		$admin_page->register();
 	}
 
 	/**
