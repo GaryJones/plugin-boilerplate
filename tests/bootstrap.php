@@ -29,9 +29,12 @@ if ( $plugin_slug_key && 'integration' === $plugin_slug_argv[ $plugin_slug_key +
 	/**
 	 * Manually load the plugin being tested.
 	 */
-	\tests_add_filter( 'muplugins_loaded', function () {
-		require dirname( __DIR__ ) . '/plugin-slug.php';
-	} );
+	\tests_add_filter(
+		'muplugins_loaded',
+		function () {
+			require dirname( __DIR__ ) . '/plugin-slug.php';
+		}
+	);
 
 	// Start up the WP testing environment.
 	require $plugin_slug_tests_dir . '/includes/bootstrap.php';
