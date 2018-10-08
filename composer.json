@@ -26,7 +26,7 @@
 		"brain/monkey": "^2.2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
 		"infection/infection": "^0.10",
-		"phpcompatibility/phpcompatibility-wp": "^1",
+		"phpcompatibility/phpcompatibility-wp": "^2",
 		"phpunit/phpunit": "^7",
 		"roave/security-advisories": "dev-master",
 		"sllh/composer-versions-check": "^2.0",
