@@ -44,7 +44,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<element name="plugin_slug"/>
+				<element value="plugin_slug"/>
 			</property>
 		</properties>
 	</rule>
@@ -52,7 +52,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element name="plugin-slug"/>
+				<element value="plugin-slug"/>
 			</property>
 		</properties>
 	</rule>
