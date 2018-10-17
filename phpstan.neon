@@ -1,0 +1,5 @@
+parameters:
+	ignoreErrors:
+		- '#Function [a-zA-Z0-9\\_]+ not found.#'
+	excludes_analyse:
+		- tests/Integration/FooTest.php
