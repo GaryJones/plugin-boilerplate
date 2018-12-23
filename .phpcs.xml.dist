@@ -51,6 +51,7 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="plugin_slug"/>
+				<element value="Gamajo\PluginSlug"/>
 			</property>
 		</properties>
 	</rule>
