@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Check XML files.
+#
+# @link http://xmlsoft.org/xmllint.html
+#
+# EXAMPLE TO RUN LOCALLY:
+#
+#   ./bin/xml-lint
+
+# Validate the ruleset XML files.
+xmllint --noout --schema ./vendor/squizlabs/php_codesniffer/phpcs.xsd .phpcs.xml.dist
+
+# Check the code-style consistency of the XML files.
+export XMLLINT_INDENT="	" # This is a tab character.
+diff -B --tabsize=4 .phpcs.xml.dist <(xmllint --format ".phpcs.xml.dist")

@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"php": "^7.1",
+		"php": "^7.2",
 		"brightnucleus/config": "^0.4",
 		"cedaro/wp-plugin": "^0.4",
 		"composer/installers": "^1"
@@ -51,6 +51,10 @@
 	"prefer-stable": true,
 	"scripts": {
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+		"lint": [
+			"bin/php-lint",
+			"bin/xml-lint"
+		],
 		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
 		"test": "./vendor/bin/phpunit"
 	},
