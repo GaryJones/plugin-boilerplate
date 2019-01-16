@@ -62,7 +62,7 @@ if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
 		?>
 		<div class="updated"><p><?php echo wp_kses_post( $notice ); ?></p></div>
 		<?php
-		// phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
