@@ -1,6 +1,4 @@
-# Run in Container-based environment - see https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments
 dist: trusty
-sudo: false
 
 language: php
 
