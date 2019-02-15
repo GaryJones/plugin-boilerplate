@@ -22,7 +22,7 @@
 		"composer/installers": "^1"
 	},
 	"require-dev": {
-		"automattic/phpcs-neutron-standard": "^1.5",
+		"automattic/vipwpcs": "^0.4",
 		"brain/monkey": "^2.2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
 		"infection/infection": "^0.11",
@@ -50,13 +50,27 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
+		"infection": "./vendor/bin/infection",
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+		"integration": "./vendor/bin/phpunit --testsuite integration",
 		"lint": [
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
 		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
-		"test": "./vendor/bin/phpunit"
+		"test": [
+			"@lint",
+			"@unit",
+			"@phpcs"
+		],
+		"test-full": [
+			"@lint",
+			"@unit",
+			"@infection",
+			"@integration",
+			"@phpcs"
+		],
+		"unit": "./vendor/bin/phpunit --testsuite unit"
 	},
 	"support": {
 		"issues": "https://github.com/GaryJones/plugin-slug/issues",

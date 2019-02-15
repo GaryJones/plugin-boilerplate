@@ -20,7 +20,7 @@
 	<!-- Strip the file paths down to the relevant bit -->
 	<arg name="basepath" value="."/>
 	<!-- Enables parallel processing when available for faster results. -->
-	<arg name="parallel" value="50"/>
+	<!--<arg name="parallel" value="50"/>-->
 	<!-- Limit to PHP files -->
 	<arg name="extensions" value="php"/>
 
