@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 
 language: php
 
@@ -10,7 +10,8 @@ notifications:
 php:
   - 7.1
   - 7.2
-  - nightly
+  - 7.3
+  - "7.4snapshot"
 
 before_install:
   # Turn off Xdebug
@@ -23,6 +24,10 @@ stages:
  - test
 
 jobs:
+  fast_finish: true
+  allow_failures:
+      # Allow failures for unstable builds.
+        - php: "7.4snapshot"
   include:
     - stage: lint and code standards
       php: 7.1
@@ -58,10 +63,7 @@ jobs:
         - vendor/bin/infection
         - vendor/bin/phpunit --testsuite integration
 
-  fast_finish: true
-  allow_failures:
-      # Allow failures for unstable builds.
-      - php: nightly
+
 
 cache:
   apt: true
