@@ -8,14 +8,8 @@ Long description about the plugin.
 
 ## Screenshots
 
-![Alt text for screenshot 1 HERE](assets-repo/screenshot-1.png)  
+![Alt text for screenshot 1 HERE](assets-wp-repo/screenshot-1.png)  
 _Screenshot 1 caption HERE._
-
----
-
-![Alt text for screenshot 2 HERE](assets-repo/screenshot-2.png)  
-_Screenshot 2 caption HERE._
-
 
 ## Installation
 
