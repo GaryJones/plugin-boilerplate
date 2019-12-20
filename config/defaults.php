@@ -35,7 +35,6 @@ $plugin_slug_settings = [
 						'deps'      => [ 'jquery' ],
 						'ver'       => '1.2.3',
 						'in_footer' => true,
-						// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
 						'is_needed' => function ( $context ): bool {
 							if ( $context ) {
 								return false;
@@ -45,7 +44,6 @@ $plugin_slug_settings = [
 						},
 						'localize'  => [
 							'name' => 'pluginSlugI18n',
-							// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
 							'data' => function ( $context ): array {
 								return [
 									'test_localize_data' => 'test_localize_value',

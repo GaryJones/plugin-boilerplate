@@ -20,7 +20,7 @@
 	<!-- Strip the file paths down to the relevant bit -->
 	<arg name="basepath" value="."/>
 	<!-- Enables parallel processing when available for faster results. -->
-	<!--<arg name="parallel" value="50"/>-->
+	<arg name="parallel" value="20"/>
 	<!-- Limit to PHP files -->
 	<arg name="extensions" value="php"/>
 
@@ -70,16 +70,14 @@
 		</properties>
 	</rule>
 
-	<!-- Rules: Neutron Standard, for PHP 7+ development - see
-	https://github.com/Automattic/phpcs-neutron-standard -->
-	<rule ref="NeutronStandard"/>
-	<!-- Disable alignment checks, which is direct conflict with WPCS - see
-	https://github.com/Automattic/phpcs-neutron-standard/issues/69 -->
-	<rule ref="NeutronStandard.AssignAlign.DisallowAssignAlign.Aligned">
-		<severity>0</severity>
+	<!-- WordPress insists on long array syntax, so let's ignore that, and insist on short array syntax. -->
+	<rule ref="WordPress">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-	<rule ref="NeutronStandard.StrictTypes.RequireStrictTypes.StrictTypes">
-		<exclude-pattern>plugin-slug.php</exclude-pattern>
-	</rule>
+	<!-- Rules: WordPress VIP Go, for WordPress.com VIP - see
+	https://github.com/Automattic/VIP-Coding-Standards -->
+	<rule ref="WordPress-VIP-Go"/>
+
 </ruleset>

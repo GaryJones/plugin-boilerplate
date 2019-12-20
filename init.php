@@ -6,8 +6,8 @@
  *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
- * @copyright    2017 Gamajo
- * @license      GPL-2.0+
+ * @copyright    2020 Gary Jones
+ * @license      GPL-2.0-or-later
  */
 
 declare( strict_types = 1 );
@@ -22,11 +22,10 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
-	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
 	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
+
 if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
-	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
 	define( 'PLUGIN_SLUG_URL', plugin_dir_url( __FILE__ ) );
 }
 

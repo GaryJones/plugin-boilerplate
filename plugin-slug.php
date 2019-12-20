@@ -2,11 +2,11 @@
 /**
  * Plugin Name
  *
- * This file should only use syntax available in PHP 5.2.4 or later.
+ * This file should only use syntax available in PHP 5.6 or later.
  *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
- * @copyright    2017 Gamajo
+ * @copyright    2020 Gamajo
  * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
@@ -15,13 +15,13 @@
  * Description:       ...
  * Version:           0.1.0
  * Author:            Gary Jones
- * Author URI:        https://gamajo.com
+ * Author URI:        https://garyjones.io
  * Text Domain:       plugin-slug
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * GitHub Plugin URI: https://github.com/garyjones/...
- * Requires PHP:      7.1
- * Requires WP:       4.7
+ * Requires PHP:      7.4
+ * Requires WP:       5.3
  */
 
 // If this file is called directly, abort.
@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
+if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	add_action( 'plugins_loaded', 'plugin_slug_init_deactivation' );
 
 	/**
@@ -62,8 +62,9 @@ if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
 		?>
 		<div class="updated"><p><?php echo wp_kses_post( $notice ); ?></p></div>
 		<?php
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not using value, only checking if it is set.
 		if ( isset( $_GET['activate'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not using value, only checking if it is set.
 			unset( $_GET['activate'] );
 		}
 	}

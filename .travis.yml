@@ -8,10 +8,8 @@ notifications:
     on_failure: change
 
 php:
-  - 7.1
-  - 7.2
-  - 7.3
-  - "7.4snapshot"
+  - 7.4
+  - "nightly"
 
 before_install:
   # Turn off Xdebug
@@ -24,19 +22,18 @@ stages:
  - test
 
 jobs:
-  fast_finish: true
   allow_failures:
       # Allow failures for unstable builds.
-        - php: "7.4snapshot"
+        - php: "nightly"
   include:
     - stage: lint and code standards
-      php: 7.2
+      php: 7.4
       addons:
         apt:
           packages:
            - libxml2-utils # Needed for XML linting.
       before_script:
-        - export XMLLINT_INDENT="	"
+        - export XMLLINT_INDENT="	" # Tab character.
       script:
         # Validate the XML files.
         # @link http://xmlsoft.org/xmllint.html
@@ -63,9 +60,6 @@ jobs:
         - vendor/bin/infection
         - vendor/bin/phpunit --testsuite integration
 
-
-
 cache:
-  apt: true
   directories:
     - $HOME/.composer/cache

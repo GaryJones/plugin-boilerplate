@@ -16,22 +16,20 @@
 		}
 	],
 	"require": {
-		"php": "^7.2",
+		"php": "^7.4",
 		"brightnucleus/config": "^0.4",
 		"cedaro/wp-plugin": "^0.4",
 		"composer/installers": "^1"
 	},
 	"require-dev": {
-		"automattic/vipwpcs": "^0.4",
+		"automattic/vipwpcs": "^2",
 		"brain/monkey": "^2.2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-		"infection/infection": "^0.11",
+		"infection/infection": "^0.15",
 		"phpcompatibility/phpcompatibility-wp": "^2",
-		"phpstan/phpstan": "^0.11",
-		"phpunit/phpunit": "^7",
+		"phpunit/phpunit": "^8",
 		"roave/security-advisories": "dev-master",
-		"sllh/composer-versions-check": "^2.0",
-		"squizlabs/php_codesniffer": "^3.4.0",
+		"squizlabs/php_codesniffer": "^3.5.2",
 		"wp-coding-standards/wpcs": "^2"
 	},
 	"config": {
@@ -57,7 +55,7 @@
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
-		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
+		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.6",
 		"test": [
 			"@lint",
 			"@unit",
