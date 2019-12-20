@@ -27,14 +27,14 @@ class PluginTest extends TestCase {
 	 *
 	 * @var string
 	 */
-	private $load_textdomain_callback;
+	private string $load_textdomain_callback;
 
 	/**
 	 * Plugin config for these unit tests.
 	 *
 	 * @var ConfigInterface
 	 */
-	private $mock_config;
+	private ConfigInterface $mock_config;
 
 	/**
 	 * Prepares the test environment before each test.
@@ -62,7 +62,7 @@ class PluginTest extends TestCase {
 	/**
 	 * Test that method that calls load_plugin_textdomain is hooked in to to the correct hook.
 	 */
-	public function test_load_plugin_textdomain_method_is_hooked_in_correctly() {
+	public function test_load_plugin_textdomain_method_is_hooked_in_correctly(): void {
 		// Create an instance of the class under test.
 		$plugin = new Testee( $this->mock_config );
 		$plugin->run();
@@ -74,7 +74,7 @@ class PluginTest extends TestCase {
 	/**
 	 * Test that load_plugin_textdomain() is called with the correct configurable arguments.
 	 */
-	public function test_load_plugin_textdomain_called_with_correct_args() {
+	public function test_load_plugin_textdomain_called_with_correct_args(): void {
 		Functions\expect( 'load_plugin_textdomain' )
 			->once()
 			->with( 'apple', false, 'apple/banana' );

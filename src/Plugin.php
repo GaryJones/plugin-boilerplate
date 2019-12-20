@@ -36,7 +36,7 @@ class Plugin {
 	 *
 	 * @var self
 	 */
-	protected static $instance;
+	protected static Plugin $instance;
 
 	/**
 	 * Instantiate a Plugin object.

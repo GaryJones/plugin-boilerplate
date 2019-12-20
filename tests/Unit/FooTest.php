@@ -23,7 +23,7 @@ class FooTest extends TestCase {
 	/**
 	 * A single example test.
 	 */
-	public function test_sample() {
+	public function test_sample(): void {
 		// Replace this with some actual testing code.
 		static::assertTrue( ( new Testee() )->is_true() );
 	}
@@ -31,7 +31,7 @@ class FooTest extends TestCase {
 	/**
 	 * A single example test.
 	 */
-	public function test_foo() {
+	public function test_foo(): void {
 		// Replace this with some actual testing code.
 		static::assertFalse( false );
 	}
@@ -39,7 +39,7 @@ class FooTest extends TestCase {
 	/**
 	 * A single example test.
 	 */
-	public function test_bar() {
+	public function test_bar(): void {
 		// Replace this with some actual testing code.
 		static::assertEquals( 'Foo::bar()', ( new Testee() )->bar() );
 	}
