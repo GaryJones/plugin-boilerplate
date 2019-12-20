@@ -1,4 +1,7 @@
-dist: xenial
+dist: bionic
+
+services:
+  - mysql
 
 language: php
 
