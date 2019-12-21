@@ -69,9 +69,19 @@ class Plugin {
 	 * @since 0.1.0
 	 */
 	public function load_textdomain(): void {
+		/**
+		 * Plugin text domain.
+		 *
+		 * @var string
+		 */
 		$text_domain   = $this->config->getKey( 'Plugin.textdomain' );
 		$languages_dir = 'languages';
 		if ( $this->config->hasKey( 'Plugin/languages_dir' ) ) {
+			/**
+			 * Directory path.
+			 *
+			 * @var string
+			 */
 			$languages_dir = $this->config->getKey( 'Plugin.languages_dir' );
 		}
 

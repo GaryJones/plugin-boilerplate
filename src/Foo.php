@@ -18,6 +18,8 @@ namespace Gamajo\PluginSlug;
 class Foo {
 	/**
 	 * Bar.
+	 *
+	 * @return string
 	 */
 	public function bar(): string {
 		return 'Foo::bar()';
@@ -26,7 +28,7 @@ class Foo {
 	/**
 	 * Returns true, always.
 	 *
-	 * @return bool
+	 * @return true
 	 */
 	public function is_true(): bool {
 		return true;
