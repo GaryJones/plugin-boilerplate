@@ -11,6 +11,7 @@ notifications:
     on_failure: change
 
 php:
+  - 7.3
   - 7.4
   - "nightly"
 
@@ -26,8 +27,8 @@ stages:
 
 jobs:
   allow_failures:
-      # Allow failures for unstable builds.
-        - php: "nightly"
+    # Allow failures for unstable builds.
+    - php: "nightly"
   include:
     - stage: lint and code standards
       php: 7.4
@@ -61,7 +62,12 @@ jobs:
       script:
         - vendor/bin/phpunit --testsuite unit
 #        - vendor/bin/infection
-        - vendor/bin/phpunit --testsuite integration
+
+        # WP integration tests don't yet run with PHPUnit 8, and PHPUnit 7 doesn't work with PHP 7.4
+        - |
+        - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.4" ]]; then
+            vendor/bin/phpunit --testsuite integration
+          fi
 
 cache:
   directories:
