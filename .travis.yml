@@ -61,12 +61,7 @@ jobs:
       script:
         - vendor/bin/phpunit --testsuite unit
 #        - vendor/bin/infection
-
-        # WP integration tests don't yet run with PHPUnit 8, and PHPUnit 7 doesn't work with PHP 7.4
-        - |
-        - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.4" ]]; then
-            vendor/bin/phpunit --testsuite integration
-          fi
+        - vendor/bin/phpunit --testsuite integration
 
 cache:
   directories:
