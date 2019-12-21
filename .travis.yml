@@ -60,7 +60,7 @@ jobs:
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
         - vendor/bin/phpunit --testsuite unit
-        - vendor/bin/infection
+#        - vendor/bin/infection
         - vendor/bin/phpunit --testsuite integration
 
 cache:
