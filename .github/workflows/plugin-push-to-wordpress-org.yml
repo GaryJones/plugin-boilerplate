@@ -1,0 +1,24 @@
+# https://github.com/10up/action-wordpress-plugin-deploy
+
+# This Action commits the contents of your Git tag to the WordPress.org plugin repository using the same tag name.
+# It can exclude files as defined in either .distignore or .gitattributes, and moves anything from a .wordpress-org
+# subdirectory to the top-level assets directory in Subversion (plugin banners, icons, and screenshots).
+
+name: Push to WordPress.org
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  tag:
+    name: New tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@master
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: my-super-cool-plugin # Change this
+        continue-on-error: true # Remove for real plugin

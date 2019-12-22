@@ -1,0 +1,93 @@
+name: CI for Plugin Boilerplate
+
+on: [push]
+
+jobs:
+  lint:
+    name: Lint and code standards
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          coverage: none
+          extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
+          pecl: false
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      # Needed as runs-on: system doesn't have xml-lint by default.
+      - name: Lint .phpcs.xml.dist
+        uses: ChristophWurst/xmllint-action@v1
+        with:
+          xml-file: ./.phpcs.xml.dist
+          xml-schema-file: ./vendor/squizlabs/php_codesniffer/phpcs.xsd
+
+      # Needed as runs-on: system doesn't have xml-lint by default.
+      - name: Lint phpunit.xml.dist
+        uses: ChristophWurst/xmllint-action@v1
+        with:
+          xml-file: ./phpunit.xml.dist
+          xml-schema-file: ./vendor/phpunit/phpunit/phpunit.xsd
+
+      - name: Lint PHP files
+        run: bin/php-lint
+
+      - name: Run Psalm
+        run: composer psalm
+        continue-on-error: true
+
+      - name: Run PHPCS
+        run: composer phpcs
+
+  test:
+    name: Unit and Integration tests
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          coverage: pcov
+          # https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
+          extensions: curl, dom, exif, fileinfo, hash, json, mbstring, mysqli, libsodium, openssl, pcre, imagick, xml, zip
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress --no-suggest
+          composer require pcov/clobber --dev
+          vendor/bin/pcov clobber
+        # See see https://dev.to/swashata/setup-php-pcov-for-5-times-faster-phpunit-code-coverage-3d9c
+
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Run unit tests
+        run: composer unit
+
+      - name: Run infection tests
+        run: composer infection
+        continue-on-error: true
+
+      - name: Prepare environment
+        run: composer prepare
+
+      - name: Run integration tests
+        run: composer integration
