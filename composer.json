@@ -24,7 +24,7 @@
 	"require-dev": {
 		"automattic/vipwpcs": "^2",
 		"brain/monkey": "^2.2",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.1 || ^0.5 || ^0.6.2 || ^0.7",
 		"infection/infection": "^0.15",
 		"phpcompatibility/phpcompatibility-wp": "^2",
 		"phpunit/phpunit": "^7",
