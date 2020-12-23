@@ -85,6 +85,9 @@ jobs:
       - name: Run infection tests
         run: composer infection
         continue-on-error: true
+      
+      - name: Start MySQL Service
+        run: sudo systemctl start mysql.service
 
       - name: Prepare environment
         run: composer prepare
