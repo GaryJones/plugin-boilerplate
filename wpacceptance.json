@@ -1,0 +1,8 @@
+{
+    "name": "plugin-boilerplate",
+    "tests": [
+        "./tests/*.php"
+    ],
+    "enforce_clean_db": false,
+    "snapshot_id": false
+}
