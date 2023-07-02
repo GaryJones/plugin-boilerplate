@@ -17,12 +17,11 @@ jobs:
 
       # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
       - name: Setup PHP 7.4
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
           coverage: none
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
-          pecl: false
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
@@ -62,7 +61,7 @@ jobs:
 
       # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
       - name: Setup PHP 7.4
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v
         with:
           php-version: '7.4'
           coverage: pcov
