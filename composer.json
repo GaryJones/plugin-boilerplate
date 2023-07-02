@@ -37,7 +37,8 @@
 		"sort-packages": true,
 		"allow-plugins": {
 			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"infection/extension-installer": true
 		}
 	},
 	"autoload": {
