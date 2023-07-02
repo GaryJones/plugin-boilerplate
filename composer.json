@@ -34,7 +34,11 @@
 		"wp-coding-standards/wpcs": "^2"
 	},
 	"config": {
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	},
 	"autoload": {
 		"psr-4": {
