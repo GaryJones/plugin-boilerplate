@@ -15,7 +15,6 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
       - name: Setup PHP 7.4
         uses: shivammathur/setup-php@v2
         with:
@@ -50,20 +49,51 @@ jobs:
       - name: Run PHPCS
         run: composer phpcs
 
+  supported-php-versions:
+    name: Determine Supported PHP Versions
+    runs-on: ubuntu-latest
+    outputs:
+      extensions: ${{ steps.supported-versions-matrix.outputs.extensions }}
+      version: ${{ steps.supported-versions-matrix.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: supported-versions-matrix
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+
   test:
     name: Unit and Integration tests
+    needs:
+      - supported-php-versions
 
     runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ${{ fromJson(needs.supported-php-versions.outputs.version) }}
+        wordpress: [ 'latest' ]
+        include:
+          - php: '8.0'
+            wordpress: '6.0'
+          - php: '8.0'
+            wordpress: '6.1'
+          - php: '8.2'
+            wordpress: 'trunk'
+            experimental: true
+          - php: '8.3'
+            wordpress: 'trunk'
+            experimental: true
 
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
-      # This should only be necessary until ubuntu-latest includes PHP 7.4 by default (currently PHP 7.3.12).
-      - name: Setup PHP 7.4
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php }}
           coverage: pcov
           # https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
           extensions: curl, dom, exif, fileinfo, hash, json, mbstring, mysqli, libsodium, openssl, pcre, imagick, xml, zip
