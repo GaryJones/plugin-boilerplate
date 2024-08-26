@@ -31,7 +31,7 @@ if ( $plugin_slug_key && 'integration' === $plugin_slug_argv[ $plugin_slug_key +
 	 */
 	\tests_add_filter(
 		'muplugins_loaded',
-		function () {
+		function (): void {
 			require dirname( __DIR__ ) . '/plugin-slug.php';
 		}
 	);
