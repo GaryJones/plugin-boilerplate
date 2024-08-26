@@ -2,11 +2,9 @@
 /**
  * Plugin Name
  *
- * This file should only use syntax available in PHP 5.6 or later.
- *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
- * @copyright    2020 Gamajo
+ * @copyright    2024 Gary Jones
  * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
@@ -24,55 +22,30 @@
  * Requires WP:       6.6
  */
 
+declare( strict_types = 1 );
+
+namespace Gamajo\PluginSlug;
+
+use BrightNucleus\Config\ConfigFactory;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( version_compare( PHP_VERSION, '8.2', '<' ) ) {
-	add_action( 'plugins_loaded', 'plugin_slug_init_deactivation' );
-
-	/**
-	 * Initialise deactivation functions.
-	 */
-	function plugin_slug_init_deactivation() {
-		if ( current_user_can( 'activate_plugins' ) ) {
-			add_action( 'admin_init', 'plugin_slug_deactivate' );
-			add_action( 'admin_notices', 'plugin_slug_deactivation_notice' );
-		}
-	}
-
-	/**
-	 * Deactivate the plugin.
-	 */
-	function plugin_slug_deactivate() {
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-
-	/**
-	 * Show deactivation admin notice.
-	 */
-	function plugin_slug_deactivation_notice() {
-		$notice = sprintf(
-			// Translators: 1: Required PHP version, 2: Current PHP version.
-			'<strong>Plugin Boilerplate</strong> requires PHP %1$s to run. This site uses %2$s, so the plugin has been <strong>deactivated</strong>.',
-			'7.1',
-			PHP_VERSION
-		);
-		?>
-		<div class="updated"><p><?php echo wp_kses_post( $notice ); ?></p></div>
-		<?php
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not using value, only checking if it is set.
-		if ( isset( $_GET['activate'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not using value, only checking if it is set.
-			unset( $_GET['activate'] );
-		}
-	}
-
-	return false;
+if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
+	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-/**
- * Load plugin initialisation file.
- */
-require plugin_dir_path( __FILE__ ) . '/init.php';
+if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
+	define( 'PLUGIN_SLUG_URL', plugin_dir_url( __FILE__ ) );
+}
+
+// Load Composer autoloader.
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
+}
+
+// Initialize the plugin.
+$GLOBALS['plugin_slug'] = new Plugin( ConfigFactory::create( __DIR__ . '/config/defaults.php' )->getSubConfig( 'Gamajo\PluginSlug' ) );
+$GLOBALS['plugin_slug']->run();

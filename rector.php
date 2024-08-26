@@ -13,7 +13,6 @@ return RectorConfig::configure()
 			__DIR__ . '/src',
 			__DIR__ . '/tests',
 			__DIR__ . '/views',
-			__DIR__ . '/init.php',
 			__DIR__ . '/plugin-slug.php',
 		)
 	)
