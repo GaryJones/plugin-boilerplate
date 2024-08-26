@@ -73,6 +73,7 @@
 	<!-- WordPress insists on long array syntax, so let's ignore that. -->
 	<rule ref="WordPress">
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Squiz.Commenting.VariableComment"/>
 	</rule>
 
 	<!-- Rules: WordPress VIP Go, for WordPress VIP - see

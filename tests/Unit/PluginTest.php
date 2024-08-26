@@ -24,15 +24,11 @@ use Gamajo\PluginSlug\Tests\TestCase;
 class PluginTest extends TestCase {
 	/**
 	 * The method inside the Plugin class which calls `load_plugin_textdomain()`.
-	 *
-	 * @var string
 	 */
 	private string $load_textdomain_callback;
 
 	/**
 	 * Plugin config for these unit tests.
-	 *
-	 * @var ConfigInterface
 	 */
 	private ConfigInterface $mock_config;
 
@@ -40,8 +36,6 @@ class PluginTest extends TestCase {
 	 * Prepares the test environment before each test.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
 	protected function setUp(): void {
 		$this->load_textdomain_callback = 'load_textdomain';

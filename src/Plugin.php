@@ -33,8 +33,6 @@ class Plugin {
 	 * Static instance of the plugin.
 	 *
 	 * @since 0.1.0
-	 *
-	 * @var self
 	 */
 	protected static Plugin $instance;
 

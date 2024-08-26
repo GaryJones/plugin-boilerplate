@@ -18,8 +18,6 @@ namespace Gamajo\PluginSlug;
 class Foo {
 	/**
 	 * Bar.
-	 *
-	 * @return string
 	 */
 	public function bar(): string {
 		return 'Foo::bar()';

@@ -29,8 +29,6 @@ abstract class TestCase extends PHPUnitTestCase {
 	 * Prepares the test environment before each test.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
 	protected function setUp(): void {
 		parent::setUp();
@@ -41,8 +39,6 @@ abstract class TestCase extends PHPUnitTestCase {
 	 * Cleans up the test environment after each test.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
 	protected function tearDown(): void {
 		Monkey\tearDown();
