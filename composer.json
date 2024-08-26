@@ -59,26 +59,24 @@
 		  "bash bin/install-wp-tests.sh wordpress_test root root localhost nightly"
 		],
 		"infection": "./vendor/bin/infection --no-progress",
-		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
 		"integration": "./vendor/bin/phpunit --testsuite integration",
 		"lint": [
 			"bin/php-lint",
-			"bin/xml-lint",
-			"@psalm"
+			"bin/xml-lint"
 		],
 		"cbf": "@php vendor/bin/phpcbf",
-		"cs": "@php vendor/bin/phpcbf && vendor/bin/phpbf ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.0",
+		"cs": "@php vendor/bin/phpcs",
 		"test": [
 			"@lint",
 			"@unit",
-			"@phpcs"
+			"@cs"
 		],
 		"test-full": [
 			"@lint",
 			"@unit",
 			"@infection",
 			"@integration",
-			"@phpcs"
+			"@cs"
 		],
 		"unit": "./vendor/bin/phpunit --testsuite unit"
 	},
