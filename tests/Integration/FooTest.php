@@ -4,7 +4,7 @@
  *
  * @package      Gamajo\PluginSlug\Tests\Integration
  * @author       Gary Jones
- * @copyright    2017 Gamajo
+ * @copyright    2024 Gary Jones
  * @license      GPL-2.0+
  */
 

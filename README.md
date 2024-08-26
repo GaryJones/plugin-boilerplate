@@ -77,4 +77,4 @@ The code in this project is licensed under [GPL v2 or later](LICENSE).
 ## Credits
 
 Built by [Gary Jones](https://twitter.com/GaryJ)  
-Copyright 2018 [Gary Jones](https://garyjones.io)
+Copyright 2024 [Gary Jones](https://garyjones.io)
