@@ -66,7 +66,8 @@
 			"bin/xml-lint",
 			"@psalm"
 		],
-		"phpcs": "phpcs && phpcs ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.6",
+		"cbf": "@php vendor/bin/phpcbf",
+		"cs": "@php vendor/bin/phpcbf && vendor/bin/phpbf ./plugin-slug.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.0",
 		"test": [
 			"@lint",
 			"@unit",

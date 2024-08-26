@@ -70,13 +70,12 @@
 		</properties>
 	</rule>
 
-	<!-- WordPress insists on long array syntax, so let's ignore that, and insist on short array syntax. -->
+	<!-- WordPress insists on long array syntax, so let's ignore that. -->
 	<rule ref="WordPress">
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
 	</rule>
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-	<!-- Rules: WordPress VIP Go, for WordPress.com VIP - see
+	<!-- Rules: WordPress VIP Go, for WordPress VIP - see
 	https://github.com/Automattic/VIP-Coding-Standards -->
 	<rule ref="WordPress-VIP-Go"/>
 
