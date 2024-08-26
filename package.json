@@ -1,0 +1,13 @@
+{
+	"name": "PLUGIN-SLUG",
+	"version": "0.1.0",
+	"description": "Short description of the plugin.",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"repository": "GaryJones/plugin-boilerplate",
+	"scripts": {
+		"bump:patch": "bump patch --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md",
+		"bump:minor": "bump minor --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md",
+		"bump:major": "bump major --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md"
+	}
+}
