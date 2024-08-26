@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.2/phpunit.xsd"
-		 bootstrap="tests/bootstrap.php"
-		 beStrictAboutCoversAnnotation="true"
-		 beStrictAboutOutputDuringTests="true"
-		 beStrictAboutTodoAnnotatedTests="true"
-		 colors="true"
-		 defaultTestSuite="unit"
-		 verbose="true">
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+	bootstrap="tests/bootstrap.php"
+	beStrictAboutCoversAnnotation="true"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutTodoAnnotatedTests="true"
+	cacheResultFile=".phpunit.cache/test-results"
+	colors="true"
+	defaultTestSuite="unit"
+	executionOrder="depends,defects"
+	failOnRisky="true"
+	failOnWarning="true"
+	testdox="true"
+	verbose="true"
+>
 	<testsuites>
 		<testsuite name="unit">
-			<directory suffix="Test.php">tests/Unit</directory>
+			<directory>tests/Unit</directory>
 		</testsuite>
 		<testsuite name="integration">
-			<directory suffix="Test.php">tests/Integration</directory>
+			<directory>tests/Integration</directory>
 		</testsuite>
 	</testsuites>
 
-	<filter>
-		<whitelist processUncoveredFilesFromWhitelist="true">
+	<coverage processUncoveredFiles="true">
+		<include>
 			<directory suffix=".php">src</directory>
-		</whitelist>
-	</filter>
+		</include>
+		<report>
+			<text outputFile="php://stdout"/>
+		</report>
+	</coverage>
 
 	<logging>
-		<log type="coverage-text" target="php://stdout"/>
 		<!--<log type="coverage-html" target="coverage"/>-->
 	</logging>
 </phpunit>
