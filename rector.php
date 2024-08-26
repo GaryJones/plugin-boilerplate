@@ -17,20 +17,16 @@ return RectorConfig::configure()
 			__DIR__ . '/plugin-slug.php',
 		)
 	)
-	->withPhpSets( php81: true )
+	->withPhpSets( php82: true )
 	// Changes from later PHP Sets that are backwards compatible:
 	->withRules(
 		array(
-			// 8.2
-			VariableInStringInterpolationFixerRector::class,
-
 			// 8.3
 			AddOverrideAttributeToOverriddenMethodsRector::class,
 
 			// 8.4
 			ExplicitNullableParamTypeRector::class,
 		)
-	)
-//	->withPreparedSets( deadCode: true, codeQuality: true, instanceOf: true, codingStyle: true )
-//	->withTypeCoverageLevel( 1 )
-	;
+	);
+// ->withPreparedSets( deadCode: true, codeQuality: true, instanceOf: true, codingStyle: true )
+// ->withTypeCoverageLevel( 1 )

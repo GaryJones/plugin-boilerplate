@@ -20,8 +20,8 @@
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * GitHub Plugin URI: https://github.com/garyjones/...
- * Requires PHP:      7.4
- * Requires WP:       5.3
+ * Requires PHP:      8.2
+ * Requires WP:       6.6
  */
 
 // If this file is called directly, abort.
@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
+if ( version_compare( PHP_VERSION, '8.2', '<' ) ) {
 	add_action( 'plugins_loaded', 'plugin_slug_init_deactivation' );
 
 	/**
