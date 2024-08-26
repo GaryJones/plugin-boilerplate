@@ -60,7 +60,7 @@ class Plugin {
 	 * @since 0.1.0
 	 */
 	public function run(): void {
-		\add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
+		\add_action( 'plugins_loaded', $this->load_textdomain( ... ) );
 	}
 
 	/**
