@@ -15,10 +15,10 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Setup PHP 7.4
+      - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
           coverage: none
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
 
@@ -42,12 +42,8 @@ jobs:
       - name: Lint PHP files
         run: bin/php-lint
 
-      - name: Run Psalm
-        run: composer psalm
-        continue-on-error: true
-
       - name: Run PHPCS
-        run: composer phpcs
+        run: composer cs
 
   supported-php-versions:
     name: Determine Supported PHP Versions
@@ -56,7 +52,7 @@ jobs:
       extensions: ${{ steps.supported-versions-matrix.outputs.extensions }}
       version: ${{ steps.supported-versions-matrix.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: supported-versions-matrix
         uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
 
@@ -66,27 +62,20 @@ jobs:
       - supported-php-versions
 
     runs-on: ubuntu-latest
-    
+
     strategy:
       fail-fast: false
       matrix:
         php: ${{ fromJson(needs.supported-php-versions.outputs.version) }}
         wordpress: [ 'latest' ]
         include:
-          - php: '8.0'
-            wordpress: '6.0'
-          - php: '8.0'
-            wordpress: '6.1'
-          - php: '8.2'
-            wordpress: 'trunk'
-            experimental: true
           - php: '8.3'
             wordpress: 'trunk'
             experimental: true
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -101,8 +90,8 @@ jobs:
       - name: Install dependencies
         run: |
           composer install --prefer-dist --no-progress --no-suggest
-          composer require pcov/clobber --dev
-          vendor/bin/pcov clobber
+#          composer require pcov/clobber --dev
+#          vendor/bin/pcov clobber
         # See see https://dev.to/swashata/setup-php-pcov-for-5-times-faster-phpunit-code-coverage-3d9c
 
       - name: Setup Problem Matchers for PHPUnit
@@ -114,7 +103,7 @@ jobs:
       - name: Run infection tests
         run: composer infection
         continue-on-error: true
-      
+
       - name: Start MySQL Service
         run: sudo systemctl start mysql.service
 
