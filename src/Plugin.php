@@ -51,4 +51,12 @@ class Plugin {
 	public function __construct( ConfigInterface $config ) {
 		$this->processConfig( $config );
 	}
+
+	/**
+	 * Launch the initialization process.
+	 *
+	 * @since 0.1.0
+	 */
+	public function run(): void {
+	}
 }
