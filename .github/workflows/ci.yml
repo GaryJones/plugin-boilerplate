@@ -2,6 +2,14 @@ name: CI for Plugin Boilerplate
 
 on: [push]
 
+# Cancel any in-progress runs for the same branch when a new push lands.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Disable all permissions by default; grant minimal permissions per job.
+permissions: {}
+
 # wp-env mounts the working tree at wp-content/plugins/<basename>, so check out into
 # a directory named to match the slug used in composer.json's "integration" script.
 defaults:
@@ -14,24 +22,32 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           path: plugin-slug
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+          persist-credentials: false
 
       - name: Setup PHP 8.4
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           coverage: none
+          tools: composer:v2
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Validate composer.json
+        run: composer validate --no-check-lock
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          working-directory: plugin-slug
+          composer-options: --prefer-dist --no-progress --no-suggest
 
       # Needed as runs-on: system doesn't have xml-lint by default.
       - name: Lint .phpcs.xml.dist
@@ -58,6 +74,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     strategy:
       fail-fast: false
       matrix:
@@ -74,9 +93,23 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: plugin-slug
+          persist-credentials: false
+
+      - name: Setup Node.js (for wp-env)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Cache npm registry for wp-env
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-wp-env-${{ hashFiles('plugin-slug/.wp-env.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-wp-env-
 
       - name: Install wp-env
-        run: npm -g install @wordpress/env
+        run: npm install -g @wordpress/env
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -85,11 +118,15 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: pcov
+          tools: composer:v2
           # https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
           extensions: curl, dom, exif, fileinfo, hash, json, mbstring, mysqli, libsodium, openssl, pcre, imagick, xml, zip
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          working-directory: plugin-slug
+          composer-options: --prefer-dist --no-progress --no-suggest
 
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"

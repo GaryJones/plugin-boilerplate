@@ -10,13 +10,20 @@ on:
     types: [ released ]
   # Allow manual triggering of the workflow.
   workflow_dispatch:
+
+permissions: {}
+
 jobs:
   release:
     name: New release to WordPress.org
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Push to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
