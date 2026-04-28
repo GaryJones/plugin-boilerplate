@@ -25,7 +25,7 @@
 		"automattic/vipwpcs": "^3",
 		"brain/monkey": "^2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-		"infection/infection": "^0.29",
+		"infection/infection": "^0.32",
 		"phpcompatibility/phpcompatibility-wp": "^2",
 		"phpunit/phpunit": "^9",
 		"rector/rector": "^2.4",
