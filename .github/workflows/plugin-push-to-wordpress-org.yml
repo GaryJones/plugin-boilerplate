@@ -11,6 +11,13 @@ on:
   # Allow manual triggering of the workflow.
   workflow_dispatch:
 
+# Serialise WordPress.org SVN deploys so two concurrent releases cannot push
+# to the same repository at once. Do not cancel an in-progress run, since it
+# may already be partway through committing tag content.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions: {}
 
 jobs:

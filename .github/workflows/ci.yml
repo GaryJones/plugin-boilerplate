@@ -129,7 +129,9 @@ jobs:
           composer-options: --prefer-dist --no-progress --no-suggest
 
       - name: Setup Problem Matchers for PHPUnit
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+        env:
+          RUNNER_TOOL_CACHE: ${{ runner.tool_cache }}
+        run: echo "::add-matcher::${RUNNER_TOOL_CACHE}/phpunit.json"
 
       - name: Run unit tests
         run: composer unit

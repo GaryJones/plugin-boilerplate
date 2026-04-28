@@ -11,6 +11,12 @@ on:
     branches:
       - master
 
+# Serialise WordPress.org SVN updates to avoid overlapping commits to the same
+# repository. Do not cancel an in-progress run, since it may already be pushing.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions: {}
 
 jobs:
