@@ -10,15 +10,29 @@ on:
     types: [ released ]
   # Allow manual triggering of the workflow.
   workflow_dispatch:
+
+# Serialise WordPress.org SVN deploys so two concurrent releases cannot push
+# to the same repository at once. Do not cancel an in-progress run, since it
+# may already be partway through committing tag content.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions: {}
+
 jobs:
   release:
     name: New release to WordPress.org
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Push to WordPress.org
-        uses: 10up/action-wordpress-plugin-deploy@stable
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # 2.3.0
         env:
           SLUG: my-super-cool-plugin # Change this
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}

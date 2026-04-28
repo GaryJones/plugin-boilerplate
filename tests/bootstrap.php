@@ -20,7 +20,8 @@ if ( $plugin_slug_key && 'integration' === $plugin_slug_argv[ $plugin_slug_key +
 	$plugin_slug_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 	if ( ! $plugin_slug_tests_dir ) {
-		$plugin_slug_tests_dir = '/tmp/wordpress-tests-lib';
+		// wp-env exposes the WP test suite at this path inside the tests-cli container.
+		$plugin_slug_tests_dir = '/wordpress-phpunit';
 	}
 
 	// Give access to tests_add_filter() function.

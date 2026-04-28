@@ -2,42 +2,66 @@ name: CI for Plugin Boilerplate
 
 on: [push]
 
+# Cancel any in-progress runs for the same branch when a new push lands.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Disable all permissions by default; grant minimal permissions per job.
+permissions: {}
+
+# wp-env mounts the working tree at wp-content/plugins/<basename>, so check out into
+# a directory named to match the slug used in composer.json's "integration" script.
+defaults:
+  run:
+    working-directory: plugin-slug
+
 jobs:
   lint:
     name: Lint and code standards
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Setup PHP 8.2
-        uses: shivammathur/setup-php@v2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          php-version: '8.2'
+          path: plugin-slug
+          persist-credentials: false
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
+        with:
+          php-version: '8.4'
           coverage: none
+          tools: composer:v2
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Validate composer.json
+        run: composer validate --no-check-lock
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+        with:
+          working-directory: plugin-slug
+          composer-options: --prefer-dist --no-progress --no-suggest
 
       # Needed as runs-on: system doesn't have xml-lint by default.
       - name: Lint .phpcs.xml.dist
-        uses: ChristophWurst/xmllint-action@v1
+        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
         with:
-          xml-file: ./.phpcs.xml.dist
-          xml-schema-file: ./vendor/squizlabs/php_codesniffer/phpcs.xsd
+          xml-file: ./plugin-slug/.phpcs.xml.dist
+          xml-schema-file: ./plugin-slug/vendor/squizlabs/php_codesniffer/phpcs.xsd
 
       # Needed as runs-on: system doesn't have xml-lint by default.
       - name: Lint phpunit.xml.dist
-        uses: ChristophWurst/xmllint-action@v1
+        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
         with:
-          xml-file: ./phpunit.xml.dist
-          xml-schema-file: ./vendor/phpunit/phpunit/phpunit.xsd
+          xml-file: ./plugin-slug/phpunit.xml.dist
+          xml-schema-file: ./plugin-slug/vendor/phpunit/phpunit/phpunit.xsd
 
       - name: Lint PHP files
         run: bin/php-lint
@@ -45,57 +69,69 @@ jobs:
       - name: Run PHPCS
         run: composer cs
 
-  supported-php-versions:
-    name: Determine Supported PHP Versions
-    runs-on: ubuntu-latest
-    outputs:
-      extensions: ${{ steps.supported-versions-matrix.outputs.extensions }}
-      version: ${{ steps.supported-versions-matrix.outputs.version }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: supported-versions-matrix
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
-
   test:
-    name: Unit and Integration tests
-    needs:
-      - supported-php-versions
+    name: WP ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
 
     strategy:
       fail-fast: false
       matrix:
-        php: ${{ fromJson(needs.supported-php-versions.outputs.version) }}
-        wordpress: [ 'latest' ]
         include:
-          - php: '8.3'
-            wordpress: 'trunk'
-            experimental: true
+          # Lowest supported PHP with lowest supported WordPress.
+          - php: '8.4'
+            wordpress: '6.9'
+          # Latest supported PHP with the latest WordPress.
+          - php: '8.5'
+            wordpress: 'master'
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: plugin-slug
+          persist-credentials: false
+
+      - name: Setup Node.js (for wp-env)
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 'lts/*'
+
+      - name: Cache npm registry for wp-env
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-wp-env-${{ hashFiles('plugin-slug/.wp-env.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-wp-env-
+
+      - name: Install wp-env
+        run: npm install -g @wordpress/env
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           php-version: ${{ matrix.php }}
           coverage: pcov
+          tools: composer:v2
           # https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
           extensions: curl, dom, exif, fileinfo, hash, json, mbstring, mysqli, libsodium, openssl, pcre, imagick, xml, zip
 
-      - name: Install dependencies
-        run: |
-          composer install --prefer-dist --no-progress --no-suggest
-#          composer require pcov/clobber --dev
-#          vendor/bin/pcov clobber
-        # See see https://dev.to/swashata/setup-php-pcov-for-5-times-faster-phpunit-code-coverage-3d9c
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+        with:
+          working-directory: plugin-slug
+          composer-options: --prefer-dist --no-progress --no-suggest
 
       - name: Setup Problem Matchers for PHPUnit
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+        env:
+          RUNNER_TOOL_CACHE: ${{ runner.tool_cache }}
+        run: echo "::add-matcher::${RUNNER_TOOL_CACHE}/phpunit.json"
 
       - name: Run unit tests
         run: composer unit
@@ -104,11 +140,11 @@ jobs:
         run: composer infection
         continue-on-error: true
 
-      - name: Start MySQL Service
-        run: sudo systemctl start mysql.service
-
-      - name: Prepare environment
-        run: composer prepare
+      - name: Start wp-env
+        run: wp-env start
+        env:
+          WP_ENV_CORE: WordPress/WordPress#${{ matrix.wordpress }}
+          WP_ENV_PHP_VERSION: ${{ matrix.php }}
 
       - name: Run integration tests
         run: composer integration
