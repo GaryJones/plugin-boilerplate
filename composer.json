@@ -17,7 +17,7 @@
 	],
 	"require": {
 		"php": "^8.2",
-		"brightnucleus/config": "^0.4",
+		"brightnucleus/config": "^0.5",
 		"cedaro/wp-plugin": "^1.0",
 		"composer/installers": "^2"
 	},
