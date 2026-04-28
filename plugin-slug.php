@@ -18,8 +18,8 @@
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * GitHub Plugin URI: https://github.com/garyjones/...
- * Requires PHP:      8.2
- * Requires WP:       6.6
+ * Requires PHP:      8.4
+ * Requires WP:       6.9
  */
 
 declare( strict_types = 1 );
