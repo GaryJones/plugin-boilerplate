@@ -21,7 +21,6 @@
 	},
 	"require": {
 		"php": "^8.4",
-		"brightnucleus/config": "^0.5",
 		"composer/installers": "^2"
 	},
 	"require-dev": {

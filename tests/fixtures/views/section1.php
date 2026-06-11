@@ -2,8 +2,7 @@
 /**
  * Section view fixture
  *
- * Echoes a marker so the section render closure registered by Plugin can be
- * invoked and its output asserted via output buffering.
+ * Echoes a marker so render_section() can be invoked and its output asserted.
  *
  * @package      Gamajo\PluginSlug\Tests
  * @author       Gary Jones
@@ -13,4 +12,4 @@
 
 declare( strict_types = 1 );
 
-echo 'SECTION_FIXTURE_OUTPUT';
+echo 'SECTION_FIXTURE';
