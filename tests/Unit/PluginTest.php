@@ -92,6 +92,13 @@ class PluginTest extends TestCase {
 						],
 					],
 				],
+				'Assets'   => [
+					'admin' => [
+						'asset_file' => $this->fixtures . 'build/admin-settings.asset.php',
+						'script'     => 'https://example.test/build/admin-settings.js',
+						'style'      => 'https://example.test/build/admin-settings.css',
+					],
+				],
 			]
 		);
 	}
@@ -135,8 +142,9 @@ class PluginTest extends TestCase {
 				)
 			);
 
-		// The admin_init hook is also added, but is asserted by another test.
+		// The other hooks are added too, but are asserted by other tests.
 		Functions\expect( 'add_action' )->with( 'admin_init', Mockery::any() );
+		Functions\expect( 'add_action' )->with( 'admin_enqueue_scripts', Mockery::any() );
 
 		$plugin->run();
 	}
@@ -148,6 +156,7 @@ class PluginTest extends TestCase {
 		$plugin = new Testee( $this->make_config() );
 
 		Functions\expect( 'add_action' )->with( 'admin_menu', Mockery::any() );
+		Functions\expect( 'add_action' )->with( 'admin_enqueue_scripts', Mockery::any() );
 
 		Functions\expect( 'add_action' )
 			->once()
@@ -162,6 +171,36 @@ class PluginTest extends TestCase {
 						$reflection = new ReflectionFunction( $candidate );
 
 						return 'register_settings' === $reflection->getName()
+							&& $plugin === $reflection->getClosureThis();
+					}
+				)
+			);
+
+		$plugin->run();
+	}
+
+	/**
+	 * The run() method wires enqueue_admin_assets() to admin_enqueue_scripts.
+	 */
+	public function test_run_hooks_enqueue_admin_assets_onto_admin_enqueue_scripts(): void {
+		$plugin = new Testee( $this->make_config() );
+
+		Functions\expect( 'add_action' )->with( 'admin_menu', Mockery::any() );
+		Functions\expect( 'add_action' )->with( 'admin_init', Mockery::any() );
+
+		Functions\expect( 'add_action' )
+			->once()
+			->with(
+				'admin_enqueue_scripts',
+				Mockery::on(
+					static function ( $candidate ) use ( $plugin ): bool {
+						if ( ! $candidate instanceof Closure ) {
+							return false;
+						}
+
+						$reflection = new ReflectionFunction( $candidate );
+
+						return 'enqueue_admin_assets' === $reflection->getName()
 							&& $plugin === $reflection->getClosureThis();
 					}
 				)
@@ -402,5 +441,71 @@ class PluginTest extends TestCase {
 		);
 
 		static::assertSame( 'FIELD_FIXTURE_OUTPUT:field1:option1', $output );
+	}
+
+	/**
+	 * Register the admin pages with a stubbed hook suffix.
+	 *
+	 * Captures the suffix into the plugin's page_hooks so the enqueue tests
+	 * can drive the on-screen check, mirroring how WordPress returns a hook
+	 * suffix from add_submenu_page().
+	 *
+	 * @param Testee $plugin      Plugin under test.
+	 * @param string $hook_suffix Hook suffix add_submenu_page() should return.
+	 */
+	private function register_pages_returning( Testee $plugin, string $hook_suffix ): void {
+		Functions\expect( 'add_submenu_page' )->once()->andReturn( $hook_suffix );
+
+		$plugin->register_admin_pages();
+	}
+
+	/**
+	 * Assets are not enqueued on admin pages other than the plugin's own.
+	 */
+	public function test_enqueue_admin_assets_skips_pages_outside_the_plugin(): void {
+		$plugin = new Testee( $this->make_config() );
+		$this->register_pages_returning( $plugin, 'settings_page_plugin-slug' );
+
+		Functions\expect( 'wp_enqueue_script' )->never();
+		Functions\expect( 'wp_enqueue_style' )->never();
+
+		$plugin->enqueue_admin_assets( 'index.php' );
+	}
+
+	/**
+	 * The built script and style are enqueued on the plugin's own page.
+	 */
+	public function test_enqueue_admin_assets_enqueues_the_built_script_and_style(): void {
+		$plugin = new Testee( $this->make_config() );
+		$this->register_pages_returning( $plugin, 'settings_page_plugin-slug' );
+
+		Functions\expect( 'wp_enqueue_script' )
+			->once()
+			->with(
+				'plugin-slug-admin-settings',
+				'https://example.test/build/admin-settings.js',
+				[ 'wp-dom-ready', 'wp-i18n' ],
+				'testhash123',
+				[ 'in_footer' => true ]
+			);
+
+		Functions\expect( 'wp_set_script_translations' )
+			->once()
+			->with( 'plugin-slug-admin-settings', 'plugin-slug' );
+
+		Functions\expect( 'wp_enqueue_style' )
+			->once()
+			->with(
+				'plugin-slug-admin-settings',
+				'https://example.test/build/admin-settings.css',
+				[],
+				'testhash123'
+			);
+
+		Functions\expect( 'wp_style_add_data' )
+			->once()
+			->with( 'plugin-slug-admin-settings', 'rtl', 'replace' );
+
+		$plugin->enqueue_admin_assets( 'settings_page_plugin-slug' );
 	}
 }
