@@ -55,6 +55,11 @@ jobs:
           working-directory: plugin-slug
           composer-options: --prefer-dist --no-progress
 
+      # The runner image does not ship xmllint, which bin/xml-lint uses to
+      # validate the XML configs against their schemas.
+      - name: Install xmllint
+        run: sudo apt-get install --yes --no-install-recommends libxml2-utils
+
       # php-parallel-lint and bin/xml-lint cover the PHP and XML files,
       # so local runs and CI share one code path.
       - name: Lint PHP and XML files
@@ -146,7 +151,7 @@ jobs:
         run: composer test:unit
 
       # Mutation testing is slow; one leg on the latest PHP is enough,
-      # and infection.json5 gates on minimum MSI so failures are real.
+      # and infection.json.dist gates on minimum MSI so failures are real.
       - name: Run infection tests
         if: matrix.php == '8.5'
         run: composer infection
