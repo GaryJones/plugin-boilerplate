@@ -1,0 +1,36 @@
+# Exclude these files when deploying to WordPress.org SVN using the
+# https://github.com/10up/action-wordpress-plugin-deploy GitHub Action,
+# which prefers this file over .gitattributes export-ignore entries.
+
+# Directories
+/.git
+/.github
+/.wordpress-org
+/bin
+/node_modules
+/tests
+
+# Files
+/.distignore
+/.editorconfig
+/.gitattributes
+/.gitignore
+/.phpcs.xml.dist
+/.wp-env.json
+/.wp-env.override.json
+/_config.yml
+/CODE_OF_CONDUCT.md
+/composer.json
+/composer.lock
+/infection.json.dist
+/package.json
+/package-lock.json
+/phpunit.xml.dist
+/rector.php
+
+# Caches, logs, and OS files
+/.phpunit.cache
+/logs
+.DS_Store
+.phpcs.cache
+*.log
