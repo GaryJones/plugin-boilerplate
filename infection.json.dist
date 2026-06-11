@@ -1,5 +1,8 @@
 {
+	"$schema": "vendor/infection/infection/resources/schema.json",
 	"timeout": 10,
+	"minMsi": 100,
+	"minCoveredMsi": 100,
 	"source": {
 		"directories": [
 			"src"
