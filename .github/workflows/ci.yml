@@ -81,6 +81,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 30
+
     permissions:
       contents: read
 
@@ -91,9 +93,9 @@ jobs:
           # Lowest supported PHP with lowest supported WordPress.
           - php: '8.4'
             wordpress: '6.9'
-          # Latest supported PHP with the latest WordPress.
+          # Latest supported PHP with latest supported WordPress.
           - php: '8.5'
-            wordpress: 'master'
+            wordpress: '7.0'
 
     steps:
       - name: Checkout
@@ -116,7 +118,7 @@ jobs:
             ${{ runner.os }}-npm-wp-env-
 
       - name: Install wp-env
-        run: npm install -g @wordpress/env
+        run: npm install -g @wordpress/env@11.8.0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
@@ -133,7 +135,7 @@ jobs:
         uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           working-directory: plugin-slug
-          composer-options: --prefer-dist --no-progress --no-suggest
+          composer-options: --prefer-dist --no-progress
 
       - name: Setup Problem Matchers for PHPUnit
         env:
@@ -141,11 +143,13 @@ jobs:
         run: echo "::add-matcher::${RUNNER_TOOL_CACHE}/phpunit.json"
 
       - name: Run unit tests
-        run: composer unit
+        run: composer test:unit
 
+      # Mutation testing is slow; one leg on the latest PHP is enough,
+      # and infection.json5 gates on minimum MSI so failures are real.
       - name: Run infection tests
+        if: matrix.php == '8.5'
         run: composer infection
-        continue-on-error: true
 
       - name: Start wp-env
         run: wp-env start
@@ -154,4 +158,7 @@ jobs:
           WP_ENV_PHP_VERSION: ${{ matrix.php }}
 
       - name: Run integration tests
-        run: composer integration
+        run: composer test:integration
+
+      - name: Run multisite integration tests
+        run: composer test:integration-ms
