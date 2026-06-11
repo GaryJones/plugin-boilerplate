@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# Run PHPUnit inside the wp-env tests-cli container.
+#
+# wp-env mounts the plugin into the container at
+# wp-content/plugins/<directory name>, where <directory name> is whatever
+# the repository was cloned as on the host. Derive that mount point from
+# the repository root rather than hardcoding the plugin slug, so the
+# integration tests work regardless of the clone directory name.
+#
+# Pass --multisite as the first argument to run the suite against a
+# WordPress multisite installation (sets WP_MULTISITE=1 for the WordPress
+# core test framework). All other arguments are passed through to PHPUnit.
+#
+# EXAMPLES TO RUN LOCALLY:
+#
+#   ./bin/wp-env-phpunit --testsuite integration
+#   ./bin/wp-env-phpunit --multisite --testsuite integration
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+env_cwd="wp-content/plugins/$(basename "${repo_root}")"
+
+if [[ "${1:-}" == "--multisite" ]]; then
+	shift
+	args="$(printf ' %q' "$@")"
+	exec wp-env run tests-cli --env-cwd="${env_cwd}" /bin/bash -c "WP_MULTISITE=1 ./vendor/bin/phpunit${args}"
+fi
+
+exec wp-env run tests-cli --env-cwd="${env_cwd}" ./vendor/bin/phpunit "$@"

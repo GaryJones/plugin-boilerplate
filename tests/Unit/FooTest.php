@@ -4,7 +4,7 @@
  *
  * @package      Gamajo\PluginSlug\Tests\Unit
  * @author       Gary Jones
- * @copyright    2024 Gary Jones
+ * @copyright    2024-2026 Gary Jones
  * @license      GPL-2.0-or-later
  */
 
@@ -17,6 +17,8 @@ use Gamajo\PluginSlug\Tests\TestCase;
 
 /**
  * Foo test case.
+ *
+ * @covers \Gamajo\PluginSlug\Foo
  */
 class FooTest extends TestCase {
 
@@ -25,7 +27,7 @@ class FooTest extends TestCase {
 	 */
 	public function test_method_asserts_as_true(): void {
 		// Replace this with some actual testing code.
-		static::assertTrue( ( new Testee() )->is_true() );
+		static::assertTrue( new Testee()->is_true() );
 	}
 
 	/**
@@ -41,6 +43,6 @@ class FooTest extends TestCase {
 	 */
 	public function test_method_call_value_equals_method_call_value(): void {
 		// Replace this with some actual testing code.
-		static::assertEquals( 'Foo::bar()', ( new Testee() )->bar() );
+		static::assertSame( 'Foo::bar()', new Testee()->bar() );
 	}
 }

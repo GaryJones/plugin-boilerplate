@@ -1,6 +1,10 @@
 name: CI for Plugin Boilerplate
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 # Cancel any in-progress runs for the same branch when a new push lands.
 concurrency:
@@ -22,57 +26,67 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 15
+
     permissions:
       contents: read
 
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           path: plugin-slug
           persist-credentials: false
 
       - name: Setup PHP 8.4
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: '8.4'
           coverage: none
-          tools: composer:v2
+          tools: composer:v2, cs2pr
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
 
       - name: Validate composer.json
-        run: composer validate --no-check-lock
+        run: composer validate --strict
 
       - name: Install Composer dependencies
         uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           working-directory: plugin-slug
-          composer-options: --prefer-dist --no-progress --no-suggest
+          composer-options: --prefer-dist --no-progress
 
-      # Needed as runs-on: system doesn't have xml-lint by default.
-      - name: Lint .phpcs.xml.dist
-        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
-        with:
-          xml-file: ./plugin-slug/.phpcs.xml.dist
-          xml-schema-file: ./plugin-slug/vendor/squizlabs/php_codesniffer/phpcs.xsd
+      # The runner image does not ship xmllint, which bin/xml-lint uses to
+      # validate the XML configs against their schemas.
+      - name: Install xmllint
+        run: sudo apt-get install --yes --no-install-recommends libxml2-utils
 
-      # Needed as runs-on: system doesn't have xml-lint by default.
-      - name: Lint phpunit.xml.dist
-        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
-        with:
-          xml-file: ./plugin-slug/phpunit.xml.dist
-          xml-schema-file: ./plugin-slug/vendor/phpunit/phpunit/phpunit.xsd
+      # php-parallel-lint and bin/xml-lint cover the PHP and XML files,
+      # so local runs and CI share one code path.
+      - name: Lint PHP and XML files
+        run: composer lint
 
-      - name: Lint PHP files
-        run: bin/php-lint
+      - name: Check composer.json normalisation
+        run: composer normalize --dry-run
 
+      # Pipe through cs2pr so sniff violations show as inline PR annotations.
       - name: Run PHPCS
-        run: composer cs
+        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
+
+      - name: Run Rector (dry run)
+        run: composer rector
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Audit dependencies
+        run: composer audit
 
   test:
     name: WP ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 30
 
     permissions:
       contents: read
@@ -84,13 +98,13 @@ jobs:
           # Lowest supported PHP with lowest supported WordPress.
           - php: '8.4'
             wordpress: '6.9'
-          # Latest supported PHP with the latest WordPress.
+          # Latest supported PHP with latest supported WordPress.
           - php: '8.5'
-            wordpress: 'master'
+            wordpress: '7.0'
 
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           path: plugin-slug
           persist-credentials: false
@@ -109,10 +123,10 @@ jobs:
             ${{ runner.os }}-npm-wp-env-
 
       - name: Install wp-env
-        run: npm install -g @wordpress/env
+        run: npm install -g @wordpress/env@11.8.0
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -126,7 +140,7 @@ jobs:
         uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           working-directory: plugin-slug
-          composer-options: --prefer-dist --no-progress --no-suggest
+          composer-options: --prefer-dist --no-progress
 
       - name: Setup Problem Matchers for PHPUnit
         env:
@@ -134,11 +148,13 @@ jobs:
         run: echo "::add-matcher::${RUNNER_TOOL_CACHE}/phpunit.json"
 
       - name: Run unit tests
-        run: composer unit
+        run: composer test:unit
 
+      # Mutation testing is slow; one leg on the latest PHP is enough,
+      # and infection.json.dist gates on minimum MSI so failures are real.
       - name: Run infection tests
+        if: matrix.php == '8.5'
         run: composer infection
-        continue-on-error: true
 
       - name: Start wp-env
         run: wp-env start
@@ -147,4 +163,7 @@ jobs:
           WP_ENV_PHP_VERSION: ${{ matrix.php }}
 
       - name: Run integration tests
-        run: composer integration
+        run: composer test:integration
+
+      - name: Run multisite integration tests
+        run: composer test:integration-ms
