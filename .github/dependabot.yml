@@ -6,7 +6,7 @@ updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
     # Add assignees
     assignees:
       - "GaryJones"
@@ -17,4 +17,40 @@ updates:
       include: "scope"
     # Specify labels for Composer pull requests
     labels:
-      - "maintenance"
+      - "dependencies"
+    # Bundle minor and patch updates into a single pull request.
+    groups:
+      composer-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "GaryJones"
+    # Prefix all commit messages with "Actions"
+    # include a list of updated dependencies
+    commit-message:
+      prefix: "Actions"
+      include: "scope"
+    # Specify labels for GitHub Actions pull requests
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "GaryJones"
+    # Prefix all commit messages with "NPM"
+    # include a list of updated dependencies
+    commit-message:
+      prefix: "NPM"
+      include: "scope"
+    # Specify labels for npm pull requests
+    labels:
+      - "dependencies"
