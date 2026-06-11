@@ -3,16 +3,11 @@
 # The WordPress stubs and rules are loaded automatically from
 # szepeviktor/phpstan-wordpress via phpstan/extension-installer.
 #
-# views/ and config/ are deliberately not analysed: those files are pulled in
-# via include/require and rely on variables injected into their scope at
-# runtime (template data, plugin constants), which PHPStan cannot see.
-#
-# Level 8 is the ceiling for this codebase: level 9 adds checkExplicitMixed,
-# which fights the untyped boundary of config-driven WordPress code — the
-# BrightNucleus Config accessors return mixed by design. Revisit if the
-# config ever gains a typed accessor layer.
+# views/ are deliberately not analysed: those files are pulled in via require
+# and rely on variables injected into their scope at runtime (template data),
+# which PHPStan cannot see.
 parameters:
-	level: 8
+	level: max
 	paths:
 		- plugin-slug.php
 		- src
