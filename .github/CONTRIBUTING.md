@@ -1,38 +1,35 @@
-# Contribute To ...
+# Contributing to Plugin Boilerplate
 
-Community-made patches, localisations, bug reports and contributions are very welcome and help make ... the best plugin for ....
+Community-made patches, localisations, bug reports and contributions are very welcome, and help make this plugin better.
 
-When contributing please ensure you follow the guidelines below so that we can keep on top of things.
+By participating in this project, you agree to abide by the [Code of Conduct](../CODE_OF_CONDUCT.md).
 
-## Getting Started
+## Reporting Issues
 
-- Submit a ticket for your issue, assuming one does not already exist.
-- Raise it on our [Issue Tracker](https://github.com/GaryJones/.../issues).
-- Clearly describe the issue including steps to reproduce the bug.
-- Make sure you fill in the earliest version that you know has the issue as well as the version of WordPress you're using.
+- Check the [issue tracker](https://github.com/GaryJones/plugin-slug/issues) to see whether your issue has already been reported.
+- Clearly describe the issue, including steps to reproduce any bug.
+- Include the plugin, WordPress and PHP versions you're using.
 
 ## Making Changes
 
-- Fork the repository on GitHub.
-- Make the changes to your forked repository.
-- Add unit / integration tests where necessary.
-- Ensure you stick to the [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards) and have properly documented any new functions.
-- When committing, reference your issue (if present) and include a note about the fix.
-- Push the changes to your fork and submit a pull request to the 'develop' branch of the ... repository.
+- Fork the repository on GitHub, and create a topic branch from `main`.
+- Set up your local environment as described in the [Development section of the README](../README.md#development).
+- Make your changes, adding or updating unit and integration tests where appropriate.
+- When committing, reference the related issue (if there is one) and include a note about the fix.
+- Push the changes to your fork, and submit a pull request to the `main` branch of this repository.
 
-### Checking You Changes
+### Checking Your Changes
 
-- Run unit tests: `phpunit`
-- Run integration tests: `phpunit --testsuite integration`
-- Run mutation tests: `infection` (see `logs/infection.log`)
-- Run code standards: `composer phpcs`
+After `composer install`, run these from the project root:
+
+- Lint PHP and XML files: `composer lint`
+- Check coding standards: `composer cs` (use `composer cs-fix` to fix violations automatically)
+- Run unit tests: `composer test:unit`
+- Run integration tests (requires `wp-env` to be running): `composer test:integration`
+- Run mutation tests: `composer infection`
 
 ## Code Documentation
 
-- Please make sure that every method is documented well and the documentation follows the standards.
+Please make sure that every function, class and method is well documented, and that the documentation follows the [WordPress PHP documentation standards](https://developer.wordpress.org/coding-standards/inline-documentation-standards/php/).
 
-At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
-
-# Additional Resources
-- [General GitHub Documentation](http://help.github.com/)
-- [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)
+At this point, you're waiting on us to review your pull request. We'll review all pull requests, and make suggestions and changes if necessary. Please keep each pull request focused on a single fix or feature.
