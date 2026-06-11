@@ -1,5 +1,7 @@
-# Support for ...
+# Support for Plugin Boilerplate
 
-The best place to get support for this project is on the [Issue Tracker](https://github.com/GaryJones/.../issues).
+The best place to get support for this project is the [issue tracker](https://github.com/GaryJones/plugin-slug/issues). Issues are for bug reports and feature requests; please don't use them for general usage questions.
 
-You can also find Gary on WordPress Slack, and [Twitter](https://twitter.com/GaryJ), though they may not be as easy to communicate the problem compared to the Issue tracker.
+To report a security vulnerability, see the [security policy](SECURITY.md) instead.
+
+You can also find Gary as `@GaryJ` on [WordPress Slack](https://make.wordpress.org/chat/), though the issue tracker remains the clearest way to describe and track a problem.
