@@ -57,4 +57,22 @@ if ( $plugin_slug_is_integration ) {
 
 	// Start up the WP testing environment.
 	require $plugin_slug_tests_dir . '/includes/bootstrap.php';
+} else {
+	// Eagerly load the plugin classes for the unit suite.
+	//
+	// Brain Monkey loads Patchwork on the first Monkey\setUp() call, and
+	// Patchwork's stream wrapper permanently replaces Infection's include
+	// interceptor, so classes autoloaded after that point would receive the
+	// original code instead of the mutated code, and every mutant would
+	// escape. Loading the classes here, before any test runs, means
+	// Infection's interceptor is still in place to serve the mutants.
+	$plugin_slug_src_files = new \RecursiveIteratorIterator(
+		new \RecursiveDirectoryIterator( dirname( __DIR__ ) . '/src', \FilesystemIterator::SKIP_DOTS )
+	);
+
+	foreach ( $plugin_slug_src_files as $plugin_slug_src_file ) {
+		if ( 'php' === $plugin_slug_src_file->getExtension() ) {
+			require_once $plugin_slug_src_file->getPathname();
+		}
+	}
 }
