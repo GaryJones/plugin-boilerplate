@@ -1,4 +1,5 @@
 /.phpunit.cache/
+/build/
 /logs/
 /node_modules/
 /vendor/
@@ -8,7 +9,6 @@
 /phpunit.xml
 /.wp-env.override.json
 .phpcs.cache
-package-lock.json
 *.log
 npm-debug.log*
 .DS_Store

@@ -2,12 +2,16 @@
 # https://github.com/10up/action-wordpress-plugin-deploy GitHub Action,
 # which prefers this file over .gitattributes export-ignore entries.
 
+# The built build/ directory is intentionally not excluded, so the deployed
+# plugin is ready to install. Its JavaScript source is excluded below.
+
 # Directories
 /.git
 /.github
 /.wordpress-org
 /bin
 /node_modules
+/src/js
 /tests
 
 # Files
@@ -28,6 +32,7 @@
 /phpstan.neon.dist
 /phpunit.xml.dist
 /rector.php
+/webpack.config.js
 
 # Caches, logs, and OS files
 /.phpunit.cache

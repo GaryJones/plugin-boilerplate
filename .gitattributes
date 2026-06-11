@@ -15,10 +15,14 @@
 # They are also used when pushing to WordPress.org SVN using the
 # https://github.com/10up/action-wordpress-plugin-deploy GitHub Action.
 
+# The built build/ directory is intentionally not excluded, so release
+# archives are ready to install. Its JavaScript source is excluded below.
+
 # Directories
 /.github             export-ignore
 /.wordpress-org      export-ignore
 /bin                 export-ignore
+/src/js              export-ignore
 /tests               export-ignore
 
 # Files
@@ -34,7 +38,9 @@
 /composer.json       export-ignore
 /composer.lock       export-ignore
 /infection.json.dist export-ignore
+/package-lock.json   export-ignore
 /package.json        export-ignore
 /phpstan.neon.dist   export-ignore
 /phpunit.xml.dist    export-ignore
 /rector.php          export-ignore
+/webpack.config.js   export-ignore
