@@ -9,11 +9,19 @@
 		"node": ">=24"
 	},
 	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:js": "wp-scripts lint-js",
+		"lint:css": "wp-scripts lint-style",
 		"bump:patch": "bump patch --commit 'Version %s.' package.json plugin-slug.php README.md",
 		"bump:minor": "bump minor --commit 'Version %s.' package.json plugin-slug.php README.md",
 		"bump:major": "bump major --commit 'Version %s.' package.json plugin-slug.php README.md"
 	},
 	"devDependencies": {
+		"@wordpress/dom-ready": "^4.48.0",
+		"@wordpress/i18n": "^6.21.0",
+		"@wordpress/scripts": "^32.4.0",
 		"version-bump-prompt": "^6.1.0"
 	}
 }

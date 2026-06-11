@@ -73,8 +73,22 @@ This plugin supports the [Git Updater](https://github.com/afragen/git-updater) p
 
 ~~~sh
 composer install
+npm install
+npm run build
 npx @wordpress/env start
 ~~~
+
+### npm scripts
+
+JavaScript and CSS assets are built with [`@wordpress/scripts`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/). Source lives in `src/js`; the compiled output and its generated `*.asset.php` dependency file land in `build` (git-ignored).
+
+| Script | Description |
+|--------|-------------|
+| `npm run build` | Build the production assets into `build`. |
+| `npm run start` | Rebuild assets on change, with source maps. |
+| `npm run lint:js` | Lint the JavaScript. |
+| `npm run lint:css` | Lint the stylesheets. |
+| `npm run format` | Format the source files. |
 
 ### Composer scripts
 
@@ -104,6 +118,10 @@ The integration tests extend `WP_UnitTestCase`, and the WordPress core test fram
 ### Why is composer.lock not committed?
 
 This is a boilerplate, so consumers should resolve dependencies against their own constraints and commit their own lock file.
+
+### How are the JavaScript and CSS assets built?
+
+`src/js/admin-settings.js` is bundled by `@wordpress/scripts` (run `npm run build`). The build emits `build/admin-settings.js`, an extracted `build/admin-settings.css`, and `build/admin-settings.asset.php`, which lists the script's WordPress dependencies and a content hash for cache busting. `Plugin::enqueue_admin_assets()` reads that file so neither the dependency list nor the version is maintained by hand. Built files are not committed; the deploy workflow runs the build so release archives are ready to install. Unlike `composer.lock`, `package-lock.json` *is* committed, so the build is reproducible.
 
 ## Change Log
 

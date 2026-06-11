@@ -29,6 +29,25 @@ class Plugin {
 	use ConfigTrait;
 
 	/**
+	 * Handle shared by the admin settings script and style.
+	 *
+	 * @since 0.2.0
+	 */
+	private const string ASSET_HANDLE = 'plugin-slug-admin-settings';
+
+	/**
+	 * Admin page hook suffixes returned by add_submenu_page().
+	 *
+	 * Captured when the pages are registered so assets load only on the
+	 * plugin's own screens, rather than on every admin page.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @var string[]
+	 */
+	private array $page_hooks = [];
+
+	/**
 	 * Instantiate a Plugin object.
 	 *
 	 * @since 0.1.0
@@ -49,6 +68,7 @@ class Plugin {
 	public function run(): void {
 		add_action( 'admin_menu', $this->register_admin_pages( ... ) );
 		add_action( 'admin_init', $this->register_settings( ... ) );
+		add_action( 'admin_enqueue_scripts', $this->enqueue_admin_assets( ... ) );
 	}
 
 	/**
@@ -61,7 +81,7 @@ class Plugin {
 	 */
 	public function register_admin_pages(): void {
 		foreach ( $this->getConfigKey( 'Settings', 'submenu_pages' ) as $page ) {
-			add_submenu_page(
+			$hook_suffix = add_submenu_page(
 				$page['parent_slug'],
 				$page['page_title'](),
 				$page['menu_title'](),
@@ -71,6 +91,10 @@ class Plugin {
 					require $page['view'];
 				}
 			);
+
+			if ( $hook_suffix ) {
+				$this->page_hooks[] = $hook_suffix;
+			}
 		}
 	}
 
@@ -122,5 +146,53 @@ class Plugin {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Enqueue the admin settings script and style.
+	 *
+	 * Loads only on the plugin's own admin screens. The asset paths come from
+	 * the config; the build/*.asset.php file they point at is generated during
+	 * the npm build and supplies the script's WordPress package dependencies
+	 * and a content-hash version for cache busting, so neither has to be
+	 * maintained by hand.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $hook_suffix Admin page identifier passed by WordPress.
+	 */
+	public function enqueue_admin_assets( string $hook_suffix ): void {
+		if ( ! in_array( $hook_suffix, $this->page_hooks, true ) ) {
+			return;
+		}
+
+		// Built assets are absent until `npm run build` has run.
+		if ( ! file_exists( $this->getConfigKey( 'Assets', 'admin', 'asset_file' ) ) ) {
+			return;
+		}
+
+		$asset = require $this->getConfigKey( 'Assets', 'admin', 'asset_file' );
+
+		wp_enqueue_script(
+			self::ASSET_HANDLE,
+			$this->getConfigKey( 'Assets', 'admin', 'script' ),
+			$asset['dependencies'],
+			$asset['version'],
+			[ 'in_footer' => true ]
+		);
+
+		// Lets the script's __() calls pick up translations from a .json file.
+		wp_set_script_translations( self::ASSET_HANDLE, 'plugin-slug' );
+
+		wp_enqueue_style(
+			self::ASSET_HANDLE,
+			$this->getConfigKey( 'Assets', 'admin', 'style' ),
+			[],
+			$asset['version']
+		);
+
+		// @wordpress/scripts emits a matching -rtl.css that WordPress swaps in
+		// for right-to-left locales.
+		wp_style_add_data( self::ASSET_HANDLE, 'rtl', 'replace' );
 	}
 }

@@ -9,6 +9,7 @@
 	<file>.</file>
 	<!-- Ignoring Files and Folders:
 		https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
+	<exclude-pattern>./build/</exclude-pattern>
 	<exclude-pattern>./node_modules/</exclude-pattern>
 	<exclude-pattern>./vendor/</exclude-pattern>
 
