@@ -47,8 +47,8 @@ class Plugin {
 	 * @since 0.1.0
 	 */
 	public function run(): void {
-		add_action( 'admin_menu', [ $this, 'register_admin_pages' ] );
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_action( 'admin_menu', $this->register_admin_pages( ... ) );
+		add_action( 'admin_init', $this->register_settings( ... ) );
 	}
 
 	/**
