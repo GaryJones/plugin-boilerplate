@@ -1,0 +1,13 @@
+# PHPStan configuration.
+#
+# The WordPress stubs and rules are loaded automatically from
+# szepeviktor/phpstan-wordpress via phpstan/extension-installer.
+#
+# views/ and config/ are deliberately not analysed: those files are pulled in
+# via include/require and rely on variables injected into their scope at
+# runtime (template data, plugin constants), which PHPStan cannot see.
+parameters:
+	level: max
+	paths:
+		- plugin-slug.php
+		- src
