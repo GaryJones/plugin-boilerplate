@@ -2,13 +2,13 @@
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginSlug" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
 	<description>Custom ruleset for PluginSlug plugin.</description>
 
-	<!-- For help in understanding this file: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
-	<!-- For help in using PHPCS: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
+	<!-- For help in understanding this file: https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Annotated-Ruleset -->
+	<!-- For help in using PHPCS: https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Usage -->
 
 	<!-- What to scan -->
 	<file>.</file>
 	<!-- Ignoring Files and Folders:
-		https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
+		https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
 	<exclude-pattern>./node_modules/</exclude-pattern>
 	<exclude-pattern>./vendor/</exclude-pattern>
 
@@ -19,6 +19,8 @@
 	<arg name="colors"/>
 	<!-- Strip the file paths down to the relevant bit -->
 	<arg name="basepath" value="."/>
+	<!-- Cache results between runs for faster repeat scans -->
+	<arg name="cache" value=".phpcs.cache"/>
 	<!-- Enables parallel processing when available for faster results. -->
 	<arg name="parallel" value="20"/>
 	<!-- Limit to PHP files -->
@@ -29,16 +31,21 @@
 	<rule ref="PHPCompatibilityWP"/>
 	<!-- For help in understanding this testVersion:
 		https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
-	<config name="testVersion" value="8.1-"/>
+	<config name="testVersion" value="8.4-"/>
 
 	<!-- Rules: WordPress Coding Standards - see
-		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
-	<!-- WordPress-Extra includes WordPress-Core -->
-	<rule ref="WordPress-Extra"/>
-	<rule ref="WordPress-Docs"/>
+		https://github.com/WordPress/WordPress-Coding-Standards -->
+	<!-- The WordPress standard contains WordPress-Core, WordPress-Docs, and WordPress-Extra. -->
+	<rule ref="WordPress">
+		<!-- WordPress insists on long array syntax; this plugin prefers short array syntax. -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<!-- Rector's dead code set removes redundant @var tags; native property types
+			document these instead, so don't demand the tags be restored. -->
+		<exclude name="Squiz.Commenting.VariableComment"/>
+	</rule>
 	<!-- For help in understanding these custom sniff properties:
-		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
-	<config name="minimum_supported_wp_version" value="6.6"/>
+		https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
+	<config name="minimum_supported_wp_version" value="6.9"/>
 
 	<rule ref="WordPress.Files.FileName">
 		<properties>
@@ -68,12 +75,6 @@
 		<properties>
 			<property name="blank_line_check" value="true"/>
 		</properties>
-	</rule>
-
-	<!-- WordPress insists on long array syntax, so let's ignore that. -->
-	<rule ref="WordPress">
-		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
-		<exclude name="Squiz.Commenting.VariableComment"/>
 	</rule>
 
 	<!-- Rules: WordPress VIP Go, for WordPress VIP - see
