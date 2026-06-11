@@ -4,7 +4,7 @@
  *
  * @package      Gamajo\PluginSlug\Tests\Integration
  * @author       Gary Jones
- * @copyright    2024 Gary Jones
+ * @copyright    2024-2026 Gary Jones
  * @license      GPL-2.0-or-later
  */
 
@@ -17,6 +17,8 @@ use WP_UnitTestCase;
 
 /**
  * Foo test case.
+ *
+ * @covers \Gamajo\PluginSlug\Foo
  */
 class FooTest extends WP_UnitTestCase {
 	/**
