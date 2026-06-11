@@ -29,19 +29,9 @@ declare( strict_types = 1 );
 
 namespace Gamajo\PluginSlug;
 
-use BrightNucleus\Config\ConfigFactory;
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
-}
-
-if ( ! defined( 'PLUGIN_SLUG_FILE' ) ) {
-	define( 'PLUGIN_SLUG_FILE', __FILE__ );
-}
-
-if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
-	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
 
 // Load Composer autoloader.
@@ -70,10 +60,8 @@ add_action(
 function plugin_slug(): Plugin {
 	static $plugin = null;
 
-	if ( null === $plugin ) {
-		$plugin = new Plugin(
-			ConfigFactory::create( __DIR__ . '/config/defaults.php' )->getSubConfig( 'Gamajo\PluginSlug' )
-		);
+	if ( ! $plugin instanceof Plugin ) {
+		$plugin = new Plugin( __FILE__ );
 	}
 
 	return $plugin;

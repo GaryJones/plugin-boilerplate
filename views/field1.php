@@ -2,9 +2,9 @@
 /**
  * Admin page section field view
  *
- * Receives the $args array passed to add_settings_field(), containing
- * label_for and option_name keys. The input id matches the label_for
- * value, so the field title rendered by WordPress labels this control.
+ * Receives $label_for and $option_name from Plugin::render_field(). The input
+ * id matches $label_for, so the field title rendered by WordPress labels this
+ * control.
  *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
@@ -14,13 +14,13 @@
 
 declare( strict_types = 1 );
 
-$plugin_slug_options = (array) get_option( $args['option_name'], [] );
-$plugin_slug_value   = (string) ( $plugin_slug_options[ $args['label_for'] ] ?? '' );
+$plugin_slug_options = (array) get_option( $option_name, [] );
+$plugin_slug_value   = (string) ( $plugin_slug_options[ $label_for ] ?? '' );
 ?>
 <input
 	type="text"
-	id="<?php echo esc_attr( $args['label_for'] ); ?>"
-	name="<?php echo esc_attr( $args['option_name'] . '[' . $args['label_for'] . ']' ); ?>"
+	id="<?php echo esc_attr( $label_for ); ?>"
+	name="<?php echo esc_attr( $option_name . '[' . $label_for . ']' ); ?>"
 	value="<?php echo esc_attr( $plugin_slug_value ); ?>"
 	class="regular-text"
 >

@@ -13,7 +13,6 @@ declare( strict_types = 1 );
 namespace Gamajo\PluginSlug\Tests\Unit;
 
 use Brain\Monkey\Functions;
-use BrightNucleus\Config\Config;
 use Closure;
 use Gamajo\PluginSlug\Plugin as Testee;
 use Gamajo\PluginSlug\Tests\TestCase;
@@ -23,18 +22,17 @@ use ReflectionFunction;
 /**
  * Plugin test case.
  *
- * Drives the registration of admin pages, settings, sections and fields from a
- * BrightNucleus Config, asserting both the exact arguments passed to the
- * WordPress registration functions and the behaviour of the closures captured
- * by those functions. The closures require view files, so the test Config
- * points the 'view' values at fixtures that echo a known marker.
+ * Asserts the exact arguments passed to the WordPress registration functions
+ * and the behaviour of the render callbacks captured by them. The callbacks
+ * require view files, so the plugin directory is pointed at fixtures that echo
+ * a known marker.
  *
  * @covers \Gamajo\PluginSlug\Plugin
  */
 class PluginTest extends TestCase {
 
 	/**
-	 * Directory holding the view fixtures required by the render closures.
+	 * Directory holding the view and build fixtures.
 	 */
 	private string $fixtures;
 
@@ -46,103 +44,72 @@ class PluginTest extends TestCase {
 
 		$this->fixtures = dirname( __DIR__ ) . '/fixtures/';
 
-		// The field fixture mirrors the real view and escapes its output.
-		Functions\when( 'esc_html' )->returnArg();
+		// Titles are passed through unchanged so exact-argument assertions read clearly.
+		Functions\when( '__' )->returnArg();
 	}
 
 	/**
-	 * Build the test Config consumed by the Plugin.
+	 * Build a Plugin whose directory and URL are stubbed.
 	 *
-	 * The shape mirrors config/defaults.php but stays minimal: one submenu page
-	 * and one setting that contains one section with one field. Translatable
-	 * labels are closures and 'view' values point at the fixtures.
-	 *
-	 * @return Config Config to parametrize the Plugin.
+	 * @param string|null $dir Directory the plugin should resolve to. Defaults
+	 *                         to the fixtures directory.
+	 * @return Testee Plugin under test.
 	 */
-	private function make_config(): Config {
-		return new Config(
-			[
-				'Settings' => [
-					'submenu_pages' => [
-						[
-							'parent_slug' => 'options-general.php',
-							'page_title'  => static fn(): string => 'Page Title',
-							'menu_title'  => static fn(): string => 'Menu Title',
-							'capability'  => 'manage_options',
-							'menu_slug'   => 'plugin-slug',
-							'view'        => $this->fixtures . 'page.php',
-						],
-					],
-					'settings'      => [
-						'option1' => [
-							'option_group'      => 'pluginslug',
-							'sanitize_callback' => static fn( $value ): string => 'sanitized:' . $value,
-							'sections'          => [
-								'section1' => [
-									'title'  => static fn(): string => 'Section Title',
-									'view'   => $this->fixtures . 'section.php',
-									'fields' => [
-										'field1' => [
-											'title' => static fn(): string => 'Field Title',
-											'view'  => $this->fixtures . 'field.php',
-										],
-									],
-								],
-							],
-						],
-					],
-				],
-				'Assets'   => [
-					'admin' => [
-						'asset_file' => $this->fixtures . 'build/admin-settings.asset.php',
-						'script'     => 'https://example.test/build/admin-settings.js',
-						'style'      => 'https://example.test/build/admin-settings.css',
-					],
-				],
-			]
-		);
+	private function make_plugin( ?string $dir = null ): Testee {
+		Functions\when( 'plugin_dir_path' )->justReturn( $dir ?? $this->fixtures );
+		Functions\when( 'plugin_dir_url' )->justReturn( 'https://example.test/' );
+
+		return new Testee( '/plugin/plugin-slug.php' );
 	}
 
 	/**
-	 * Capture the output produced by invoking a render closure.
+	 * Register the settings page so the captured hook suffix is available.
 	 *
-	 * @param Closure $closure Render closure captured from a registration call.
-	 * @param array   ...$args Arguments to pass to the closure.
+	 * @param Testee      $plugin      Plugin under test.
+	 * @param string|bool $hook_suffix Value add_options_page() should return.
+	 */
+	private function register_page_returning( Testee $plugin, string|bool $hook_suffix ): void {
+		Functions\expect( 'add_options_page' )->once()->andReturn( $hook_suffix );
+
+		$plugin->register_settings_page();
+	}
+
+	/**
+	 * Capture the output produced by invoking a render callback.
+	 *
+	 * @param Closure               $callback Callback captured from a registration call.
+	 * @param array<string, string> ...$args  Arguments to pass to the callback.
 	 *
 	 * @return string Buffered output.
 	 */
-	private function capture( Closure $closure, array ...$args ): string {
+	private function capture( Closure $callback, array ...$args ): string {
 		ob_start();
-		$closure( ...$args );
+		$callback( ...$args );
 
 		return (string) ob_get_clean();
 	}
 
 	/**
-	 * The run() method wires register_admin_pages() to the admin_menu hook.
+	 * Build a Mockery matcher asserting a first-class callable wraps a method.
+	 *
+	 * @param Testee $plugin Plugin the callable should be bound to.
+	 * @param string $method Method name the callable should wrap.
+	 *
+	 * @return object Mockery matcher.
 	 */
-	public function test_run_hooks_register_admin_pages_onto_admin_menu(): void {
-		$plugin = new Testee( $this->make_config() );
+	private function bound_to( Testee $plugin, string $method ): object {
+		return Mockery::on(
+			fn( $candidate ): bool => $this->is_bound_to( $candidate, $plugin, $method )
+		);
+	}
 
-		Functions\expect( 'add_action' )
-			->once()
-			->with(
-				'admin_menu',
-				Mockery::on(
-					static function ( $candidate ) use ( $plugin ): bool {
-						if ( ! $candidate instanceof Closure ) {
-							return false;
-						}
+	/**
+	 * The run() method wires register_settings_page() onto admin_menu.
+	 */
+	public function test_run_registers_settings_page_on_admin_menu(): void {
+		$plugin = $this->make_plugin();
 
-						$reflection = new ReflectionFunction( $candidate );
-
-						return 'register_admin_pages' === $reflection->getName()
-							&& $plugin === $reflection->getClosureThis();
-					}
-				)
-			);
-
-		// The other hooks are added too, but are asserted by other tests.
+		Functions\expect( 'add_action' )->once()->with( 'admin_menu', $this->bound_to( $plugin, 'register_settings_page' ) );
 		Functions\expect( 'add_action' )->with( 'admin_init', Mockery::any() );
 		Functions\expect( 'add_action' )->with( 'admin_enqueue_scripts', Mockery::any() );
 
@@ -150,97 +117,61 @@ class PluginTest extends TestCase {
 	}
 
 	/**
-	 * The run() method wires register_settings() to the admin_init hook.
+	 * The run() method wires register_settings() onto admin_init.
 	 */
-	public function test_run_hooks_register_settings_onto_admin_init(): void {
-		$plugin = new Testee( $this->make_config() );
+	public function test_run_registers_settings_on_admin_init(): void {
+		$plugin = $this->make_plugin();
 
 		Functions\expect( 'add_action' )->with( 'admin_menu', Mockery::any() );
+		Functions\expect( 'add_action' )->once()->with( 'admin_init', $this->bound_to( $plugin, 'register_settings' ) );
 		Functions\expect( 'add_action' )->with( 'admin_enqueue_scripts', Mockery::any() );
-
-		Functions\expect( 'add_action' )
-			->once()
-			->with(
-				'admin_init',
-				Mockery::on(
-					static function ( $candidate ) use ( $plugin ): bool {
-						if ( ! $candidate instanceof Closure ) {
-							return false;
-						}
-
-						$reflection = new ReflectionFunction( $candidate );
-
-						return 'register_settings' === $reflection->getName()
-							&& $plugin === $reflection->getClosureThis();
-					}
-				)
-			);
 
 		$plugin->run();
 	}
 
 	/**
-	 * The run() method wires enqueue_admin_assets() to admin_enqueue_scripts.
+	 * The run() method wires enqueue_admin_assets() onto admin_enqueue_scripts.
 	 */
-	public function test_run_hooks_enqueue_admin_assets_onto_admin_enqueue_scripts(): void {
-		$plugin = new Testee( $this->make_config() );
+	public function test_run_enqueues_assets_on_admin_enqueue_scripts(): void {
+		$plugin = $this->make_plugin();
 
 		Functions\expect( 'add_action' )->with( 'admin_menu', Mockery::any() );
 		Functions\expect( 'add_action' )->with( 'admin_init', Mockery::any() );
-
-		Functions\expect( 'add_action' )
-			->once()
-			->with(
-				'admin_enqueue_scripts',
-				Mockery::on(
-					static function ( $candidate ) use ( $plugin ): bool {
-						if ( ! $candidate instanceof Closure ) {
-							return false;
-						}
-
-						$reflection = new ReflectionFunction( $candidate );
-
-						return 'enqueue_admin_assets' === $reflection->getName()
-							&& $plugin === $reflection->getClosureThis();
-					}
-				)
-			);
+		Functions\expect( 'add_action' )->once()->with( 'admin_enqueue_scripts', $this->bound_to( $plugin, 'enqueue_admin_assets' ) );
 
 		$plugin->run();
 	}
 
 	/**
-	 * Each submenu page is registered with exact arguments.
+	 * The settings page is added under the Settings menu with exact arguments.
 	 */
-	public function test_register_admin_pages_passes_exact_arguments(): void {
-		$plugin = new Testee( $this->make_config() );
+	public function test_register_settings_page_adds_options_page_with_exact_arguments(): void {
+		$plugin = $this->make_plugin();
 
-		Functions\expect( 'add_submenu_page' )
+		Functions\expect( 'add_options_page' )
 			->once()
 			->with(
-				'options-general.php',
-				'Page Title',
-				'Menu Title',
+				'Plugin Slug Settings',
+				'Plugin Slug',
 				'manage_options',
 				'plugin-slug',
 				Mockery::type( Closure::class )
-			);
+			)
+			->andReturn( 'settings_page_plugin-slug' );
 
-		$plugin->register_admin_pages();
+		$plugin->register_settings_page();
 	}
 
 	/**
-	 * The page render closure requires the configured view file.
+	 * The settings page callback renders the page view.
 	 */
-	public function test_register_admin_pages_render_closure_requires_view(): void {
-		$plugin = new Testee( $this->make_config() );
-
+	public function test_settings_page_callback_renders_the_view(): void {
+		$plugin   = $this->make_plugin();
 		$captured = null;
 
-		Functions\expect( 'add_submenu_page' )
+		Functions\expect( 'add_options_page' )
 			->once()
 			->with(
-				Mockery::any(),
 				Mockery::any(),
 				Mockery::any(),
 				Mockery::any(),
@@ -252,32 +183,31 @@ class PluginTest extends TestCase {
 						return $candidate instanceof Closure;
 					}
 				)
-			);
+			)
+			->andReturn( 'settings_page_plugin-slug' );
 
-		$plugin->register_admin_pages();
+		$plugin->register_settings_page();
 
 		static::assertInstanceOf( Closure::class, $captured );
-		static::assertSame( 'PAGE_FIXTURE_OUTPUT', $this->capture( $captured ) );
+		static::assertSame( 'ADMIN_PAGE_FIXTURE', $this->capture( $captured ) );
 	}
 
 	/**
 	 * The setting is registered with exact arguments.
 	 */
 	public function test_register_settings_registers_setting_with_exact_arguments(): void {
-		$config = $this->make_config();
-		$plugin = new Testee( $config );
-
-		$sanitize = $config->getKey( [ 'Settings', 'settings', 'option1', 'sanitize_callback' ] );
+		$plugin = $this->make_plugin();
 
 		Functions\expect( 'register_setting' )
 			->once()
 			->with(
-				'pluginslug',
-				'option1',
+				'plugin_slug',
+				'plugin_slug_settings',
 				Mockery::on(
-					static fn( $args ): bool => is_array( $args )
-						&& array_keys( $args ) === [ 'sanitize_callback' ]
-						&& $args['sanitize_callback'] === $sanitize
+					fn( $args ): bool => is_array( $args )
+						&& 'array' === $args['type']
+						&& [] === $args['default']
+						&& $this->is_bound_to( $args['sanitize_callback'], $plugin, 'sanitize_settings' )
 				)
 			);
 
@@ -288,69 +218,33 @@ class PluginTest extends TestCase {
 	}
 
 	/**
-	 * The sanitize callback wired into the setting is the one from the Config.
+	 * The section is registered with exact arguments.
 	 */
-	public function test_register_settings_uses_config_sanitize_callback(): void {
-		$config = $this->make_config();
-		$plugin = new Testee( $config );
-
-		$captured = null;
-
-		Functions\expect( 'register_setting' )
-			->once()
-			->with(
-				Mockery::any(),
-				Mockery::any(),
-				Mockery::on(
-					static function ( array $args ) use ( &$captured ): bool {
-						$captured = $args['sanitize_callback'] ?? null;
-
-						return true;
-					}
-				)
-			);
-
-		Functions\expect( 'add_settings_section' )->andReturnNull();
-		Functions\expect( 'add_settings_field' )->andReturnNull();
-
-		$plugin->register_settings();
-
-		static::assertInstanceOf( Closure::class, $captured );
-		static::assertSame( 'sanitized:raw', $captured( 'raw' ) );
-	}
-
-	/**
-	 * Each section is registered with exact arguments.
-	 */
-	public function test_register_settings_registers_section_with_exact_arguments(): void {
-		$plugin = new Testee( $this->make_config() );
+	public function test_register_settings_adds_section_with_exact_arguments(): void {
+		$plugin = $this->make_plugin();
 
 		Functions\expect( 'register_setting' )->andReturnNull();
-
 		Functions\expect( 'add_settings_section' )
 			->once()
 			->with(
-				'section1',
-				'Section Title',
+				'plugin_slug_section_general',
+				'My Section Title',
 				Mockery::type( Closure::class ),
-				'pluginslug'
+				'plugin-slug'
 			);
-
 		Functions\expect( 'add_settings_field' )->andReturnNull();
 
 		$plugin->register_settings();
 	}
 
 	/**
-	 * The section render closure requires the configured view file.
+	 * The section callback renders the section view.
 	 */
-	public function test_register_settings_section_closure_requires_view(): void {
-		$plugin = new Testee( $this->make_config() );
-
+	public function test_section_callback_renders_the_view(): void {
+		$plugin   = $this->make_plugin();
 		$captured = null;
 
 		Functions\expect( 'register_setting' )->andReturnNull();
-
 		Functions\expect( 'add_settings_section' )
 			->once()
 			->with(
@@ -365,35 +259,33 @@ class PluginTest extends TestCase {
 				),
 				Mockery::any()
 			);
-
 		Functions\expect( 'add_settings_field' )->andReturnNull();
 
 		$plugin->register_settings();
 
 		static::assertInstanceOf( Closure::class, $captured );
-		static::assertSame( 'SECTION_FIXTURE_OUTPUT', $this->capture( $captured ) );
+		static::assertSame( 'SECTION_FIXTURE', $this->capture( $captured ) );
 	}
 
 	/**
-	 * Each field is registered with exact arguments.
+	 * The field is registered with exact arguments.
 	 */
-	public function test_register_settings_registers_field_with_exact_arguments(): void {
-		$plugin = new Testee( $this->make_config() );
+	public function test_register_settings_adds_field_with_exact_arguments(): void {
+		$plugin = $this->make_plugin();
 
 		Functions\expect( 'register_setting' )->andReturnNull();
 		Functions\expect( 'add_settings_section' )->andReturnNull();
-
 		Functions\expect( 'add_settings_field' )
 			->once()
 			->with(
 				'field1',
-				'Field Title',
+				'My Field Title',
 				Mockery::type( Closure::class ),
-				'pluginslug',
-				'section1',
+				'plugin-slug',
+				'plugin_slug_section_general',
 				[
 					'label_for'   => 'field1',
-					'option_name' => 'option1',
+					'option_name' => 'plugin_slug_settings',
 				]
 			);
 
@@ -401,16 +293,14 @@ class PluginTest extends TestCase {
 	}
 
 	/**
-	 * The field render closure requires the view and receives the $args array.
+	 * The field callback renders the field view with the args passed through.
 	 */
-	public function test_register_settings_field_closure_requires_view_with_args(): void {
-		$plugin = new Testee( $this->make_config() );
-
+	public function test_field_callback_renders_the_view_with_args(): void {
+		$plugin   = $this->make_plugin();
 		$captured = null;
 
 		Functions\expect( 'register_setting' )->andReturnNull();
 		Functions\expect( 'add_settings_section' )->andReturnNull();
-
 		Functions\expect( 'add_settings_field' )
 			->once()
 			->with(
@@ -436,35 +326,63 @@ class PluginTest extends TestCase {
 			$captured,
 			[
 				'label_for'   => 'field1',
-				'option_name' => 'option1',
+				'option_name' => 'plugin_slug_settings',
 			]
 		);
 
-		static::assertSame( 'FIELD_FIXTURE_OUTPUT:field1:option1', $output );
+		static::assertSame( 'FIELD_FIXTURE:field1:plugin_slug_settings', $output );
 	}
 
 	/**
-	 * Register the admin pages with a stubbed hook suffix.
-	 *
-	 * Captures the suffix into the plugin's page_hooks so the enqueue tests
-	 * can drive the on-screen check, mirroring how WordPress returns a hook
-	 * suffix from add_submenu_page().
-	 *
-	 * @param Testee $plugin      Plugin under test.
-	 * @param string $hook_suffix Hook suffix add_submenu_page() should return.
+	 * Non-array input sanitizes to an empty array.
 	 */
-	private function register_pages_returning( Testee $plugin, string $hook_suffix ): void {
-		Functions\expect( 'add_submenu_page' )->once()->andReturn( $hook_suffix );
+	public function test_sanitize_settings_returns_empty_array_for_non_array(): void {
+		static::assertSame( [], $this->make_plugin()->sanitize_settings( 'not-an-array' ) );
+	}
 
-		$plugin->register_admin_pages();
+	/**
+	 * Each scalar field is passed through sanitize_text_field.
+	 */
+	public function test_sanitize_settings_sanitizes_each_scalar_field(): void {
+		// Mockery::type( 'string' ) asserts each field is cast to a string before
+		// it reaches sanitize_text_field, which under strict_types it must be.
+		Functions\expect( 'sanitize_text_field' )
+			->twice()
+			->with( Mockery::type( 'string' ) )
+			->andReturnUsing( static fn( string $value ): string => 'clean:' . $value );
+
+		static::assertSame(
+			[
+				'field1' => 'clean:hello',
+				'field2' => 'clean:42',
+			],
+			$this->make_plugin()->sanitize_settings(
+				[
+					'field1' => 'hello',
+					'field2' => 42,
+				]
+			)
+		);
+	}
+
+	/**
+	 * Non-scalar fields are replaced with an empty string before sanitizing.
+	 */
+	public function test_sanitize_settings_replaces_non_scalar_fields(): void {
+		Functions\expect( 'sanitize_text_field' )->andReturnArg( 0 );
+
+		static::assertSame(
+			[ 'field1' => '' ],
+			$this->make_plugin()->sanitize_settings( [ 'field1' => [ 'nested' ] ] )
+		);
 	}
 
 	/**
 	 * Assets are not enqueued on admin pages other than the plugin's own.
 	 */
-	public function test_enqueue_admin_assets_skips_pages_outside_the_plugin(): void {
-		$plugin = new Testee( $this->make_config() );
-		$this->register_pages_returning( $plugin, 'settings_page_plugin-slug' );
+	public function test_enqueue_skips_other_pages(): void {
+		$plugin = $this->make_plugin();
+		$this->register_page_returning( $plugin, 'settings_page_plugin-slug' );
 
 		Functions\expect( 'wp_enqueue_script' )->never();
 		Functions\expect( 'wp_enqueue_style' )->never();
@@ -473,11 +391,37 @@ class PluginTest extends TestCase {
 	}
 
 	/**
+	 * Nothing is enqueued when the settings page failed to register.
+	 */
+	public function test_enqueue_skips_when_page_registration_failed(): void {
+		$plugin = $this->make_plugin();
+		$this->register_page_returning( $plugin, false );
+
+		Functions\expect( 'wp_enqueue_script' )->never();
+		Functions\expect( 'wp_enqueue_style' )->never();
+
+		$plugin->enqueue_admin_assets( 'settings_page_plugin-slug' );
+	}
+
+	/**
+	 * Nothing is enqueued before the assets have been built.
+	 */
+	public function test_enqueue_skips_when_build_is_absent(): void {
+		$plugin = $this->make_plugin( '/no/such/directory/' );
+		$this->register_page_returning( $plugin, 'settings_page_plugin-slug' );
+
+		Functions\expect( 'wp_enqueue_script' )->never();
+		Functions\expect( 'wp_enqueue_style' )->never();
+
+		$plugin->enqueue_admin_assets( 'settings_page_plugin-slug' );
+	}
+
+	/**
 	 * The built script and style are enqueued on the plugin's own page.
 	 */
-	public function test_enqueue_admin_assets_enqueues_the_built_script_and_style(): void {
-		$plugin = new Testee( $this->make_config() );
-		$this->register_pages_returning( $plugin, 'settings_page_plugin-slug' );
+	public function test_enqueue_enqueues_the_built_script_and_style(): void {
+		$plugin = $this->make_plugin();
+		$this->register_page_returning( $plugin, 'settings_page_plugin-slug' );
 
 		Functions\expect( 'wp_enqueue_script' )
 			->once()
@@ -507,5 +451,22 @@ class PluginTest extends TestCase {
 			->with( 'plugin-slug-admin-settings', 'rtl', 'replace' );
 
 		$plugin->enqueue_admin_assets( 'settings_page_plugin-slug' );
+	}
+
+	/**
+	 * Whether a candidate is a first-class callable wrapping a bound method.
+	 *
+	 * @param mixed  $candidate Value to inspect.
+	 * @param Testee $plugin    Plugin the callable should be bound to.
+	 * @param string $method    Method name the callable should wrap.
+	 */
+	private function is_bound_to( mixed $candidate, Testee $plugin, string $method ): bool {
+		if ( ! $candidate instanceof Closure ) {
+			return false;
+		}
+
+		$reflection = new ReflectionFunction( $candidate );
+
+		return $method === $reflection->getName() && $plugin === $reflection->getClosureThis();
 	}
 }
