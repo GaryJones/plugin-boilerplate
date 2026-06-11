@@ -1,13 +1,12 @@
 {
 	"name": "gamajo/plugin-slug",
-	"type": "wordpress-plugin",
 	"description": "Test plugin",
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
 	"keywords": [
 		"plugin",
 		"plugin-slug"
 	],
-	"homepage": "https://github.com/GaryJones/plugin-slug",
-	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Gary Jones",
@@ -15,6 +14,11 @@
 			"role": "Developer"
 		}
 	],
+	"homepage": "https://github.com/GaryJones/plugin-slug",
+	"support": {
+		"issues": "https://github.com/GaryJones/plugin-slug/issues",
+		"source": "https://github.com/GaryJones/plugin-slug"
+	},
 	"require": {
 		"php": "^8.4",
 		"brightnucleus/config": "^0.5",
@@ -25,23 +29,23 @@
 		"automattic/vipwpcs": "^3",
 		"brain/monkey": "^2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"ergebnis/composer-normalize": "^2.52",
 		"infection/infection": "^0.33",
+		"mockery/mockery": "^1.6",
+		"php-parallel-lint/php-parallel-lint": "^1.4",
 		"phpcompatibility/phpcompatibility-wp": "^2",
-		"phpunit/phpunit": "^9",
+		"phpstan/extension-installer": "^1.4",
+		"phpstan/phpstan": "^2.2",
+		"phpunit/phpunit": "^9.6",
 		"rector/rector": "^2.4",
-		"roave/security-advisories": "dev-master",
+		"roave/security-advisories": "dev-latest",
 		"squizlabs/php_codesniffer": "^3",
+		"szepeviktor/phpstan-wordpress": "^2.0",
 		"wp-coding-standards/wpcs": "^3",
 		"yoast/phpunit-polyfills": "^4"
 	},
-	"config": {
-		"sort-packages": true,
-		"allow-plugins": {
-			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"infection/extension-installer": true
-		}
-	},
+	"minimum-stability": "stable",
+	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
 			"Gamajo\\PluginSlug\\": "src/"
@@ -52,33 +56,63 @@
 			"Gamajo\\PluginSlug\\Tests\\": "tests/"
 		}
 	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"ergebnis/composer-normalize": true,
+			"infection/extension-installer": true,
+			"phpstan/extension-installer": true
+		},
+		"sort-packages": true
+	},
 	"scripts": {
-		"infection": "./vendor/bin/infection --no-progress",
-		"integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/plugin-slug ./vendor/bin/phpunit --testsuite integration",
+		"coverage": "@php ./vendor/bin/phpunit --testsuite unit --coverage-html .phpunit.cache/coverage-html",
+		"cs": "@php ./vendor/bin/phpcs",
+		"cs-fix": "@php ./vendor/bin/phpcbf",
+		"infection": "./vendor/bin/infection --no-progress --threads=max --show-mutations",
+		"integration": "@test:integration",
 		"lint": [
-			"bin/php-lint",
+			"@php ./vendor/bin/parallel-lint . --exclude vendor --exclude node_modules",
 			"bin/xml-lint"
 		],
-		"cbf": "@php vendor/bin/phpcbf",
-		"cs": "@php vendor/bin/phpcs",
+		"phpstan": "phpstan analyse",
+		"rector": "@php ./vendor/bin/rector process --dry-run",
+		"rector:fix": "@php ./vendor/bin/rector process",
 		"test": [
 			"@lint",
-			"@unit",
-			"@cs"
+			"@cs",
+			"@test:unit"
 		],
 		"test-full": [
 			"@lint",
-			"@unit",
+			"@cs",
+			"@rector",
+			"@test:unit",
 			"@infection",
-			"@integration",
-			"@cs"
+			"@test:integration",
+			"@test:integration-ms"
 		],
-		"unit": "./vendor/bin/phpunit --testsuite unit"
+		"test:integration": "bin/wp-env-phpunit --testsuite integration",
+		"test:integration-ms": "bin/wp-env-phpunit --multisite --testsuite integration",
+		"test:unit": "@php ./vendor/bin/phpunit --testsuite unit",
+		"unit": "@test:unit"
 	},
-	"support": {
-		"issues": "https://github.com/GaryJones/plugin-slug/issues",
-		"source": "https://github.com/GaryJones/plugin-slug"
+	"scripts-descriptions": {
+		"coverage": "Run the unit tests and generate an HTML coverage report in .phpunit.cache/coverage-html.",
+		"cs": "Check coding standards with PHP_CodeSniffer.",
+		"cs-fix": "Fix automatically fixable coding standards violations with PHP Code Beautifier and Fixer.",
+		"infection": "Run mutation testing with Infection.",
+		"integration": "Deprecated alias for test:integration, kept until CI moves to the new script names.",
+		"lint": "Check PHP files for syntax errors and XML config files against their schemas.",
+		"phpstan": "Run static analysis with PHPStan.",
+		"rector": "Preview automated refactorings with Rector (dry run).",
+		"rector:fix": "Apply automated refactorings with Rector.",
+		"test": "Run the quick checks: lint, coding standards, and unit tests.",
+		"test-full": "Run every check: lint, coding standards, Rector, unit, mutation, and integration tests.",
+		"test:integration": "Run the integration tests inside the wp-env tests container.",
+		"test:integration-ms": "Run the integration tests against WordPress multisite inside the wp-env tests container.",
+		"test:unit": "Run the unit tests.",
+		"unit": "Deprecated alias for test:unit, kept until CI moves to the new script names."
 	}
 }

@@ -1,22 +1,10 @@
 #!/usr/bin/env bash
 #
-# Lint the PHP files against parse errors.
-#
-# The find utility recursively descends the directory tree for each path listed.
-#
-# find . = Start with all files in this package
-# -path ./vendor -prune = But remove those in the vendor directory
-# -o -path ./bin -prune = And remove those in the bin directory
-# -o -path ./.git -prune = And remove those in the .git directory
-# -o -name "*.php" = And only consider those with a .php extension
-# -exec php -l {} = Run PHP linter on the remaining files
-# | grep "^[Parse error|Fatal error]" = Look in the results for any parse or fatal errors.
-#
-# EXAMPLE TO RUN LOCALLY:
-#
-#   ./bin/php-lint
-#
+# Temporary shim for the pre-refresh CI workflow, which calls bin/php-lint
+# directly. PHP syntax linting now lives in `composer lint` via
+# php-parallel-lint; the CI refresh removes this file when it switches the
+# workflow to the new entry points.
 
-if find . -path ./vendor -prune -o -path ./bin -prune -o -path ./.git -prune -o -name "*.php" -exec php -l -f {} \; | grep "^[Errors parsing]"; then
-    exit 1;
-fi
+set -euo pipefail
+
+exec vendor/bin/parallel-lint . --exclude vendor --exclude node_modules

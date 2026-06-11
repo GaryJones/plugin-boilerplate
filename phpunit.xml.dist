@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Deliberately pinned to the PHPUnit 9.6 schema: the integration suite
+	extends WP_UnitTestCase from the WordPress core test framework, which
+	still targets yoast/phpunit-polyfills 1.x / PHPUnit 9.6 or earlier.
+	Revisit when WordPress core moves to a newer PHPUnit.
+-->
 <phpunit
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
@@ -29,11 +35,8 @@
 			<directory suffix=".php">src</directory>
 		</include>
 		<report>
+			<clover outputFile=".phpunit.cache/clover.xml"/>
 			<text outputFile="php://stdout"/>
 		</report>
 	</coverage>
-
-	<logging>
-		<!--<log type="coverage-html" target="coverage"/>-->
-	</logging>
 </phpunit>

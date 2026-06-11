@@ -3,6 +3,7 @@
 		"."
 	],
 	"phpVersion": "8.4",
+	"core": "WordPress/WordPress#6.9",
 	"config": {
 		"WP_DEBUG": true,
 		"WP_DEBUG_LOG": true,
@@ -10,8 +11,8 @@
 	},
 	"env": {
 		"tests": {
-			"phpVersion": "8.4",
-			"core": "WordPress/WordPress#6.9"
+			"phpVersion": "8.5",
+			"core": "WordPress/WordPress#7.0"
 		}
 	}
 }
