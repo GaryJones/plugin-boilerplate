@@ -36,6 +36,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if ( ! defined( 'PLUGIN_SLUG_FILE' ) ) {
+	define( 'PLUGIN_SLUG_FILE', __FILE__ );
+}
+
 if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
 	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
