@@ -4,7 +4,7 @@
  *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
- * @copyright    2024 Gary Jones
+ * @copyright    2024-2026 Gary Jones
  * @license      GPL-2.0-or-later
  */
 
@@ -14,10 +14,16 @@ namespace Gamajo\PluginSlug;
 
 /**
  * Foo class.
+ *
+ * @since 0.1.0
  */
 class Foo {
 	/**
 	 * Bar.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return string Identification of the method being called.
 	 */
 	public function bar(): string {
 		return 'Foo::bar()';
@@ -25,6 +31,8 @@ class Foo {
 
 	/**
 	 * Returns true, always.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return true
 	 */
