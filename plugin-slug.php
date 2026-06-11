@@ -40,15 +40,37 @@ if ( ! defined( 'PLUGIN_SLUG_DIR' ) ) {
 	define( 'PLUGIN_SLUG_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-if ( ! defined( 'PLUGIN_SLUG_URL' ) ) {
-	define( 'PLUGIN_SLUG_URL', plugin_dir_url( __FILE__ ) );
-}
-
 // Load Composer autoloader.
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-// Initialize the plugin.
-$GLOBALS['plugin_slug'] = new Plugin( ConfigFactory::create( __DIR__ . '/config/defaults.php' )->getSubConfig( 'Gamajo\PluginSlug' ) );
-$GLOBALS['plugin_slug']->run();
+// Initialize the plugin on a hook, rather than at file include time.
+add_action(
+	'plugins_loaded',
+	static function (): void {
+		plugin_slug()->run();
+	}
+);
+
+/**
+ * Get the plugin instance.
+ *
+ * Builds and caches the Plugin object on first call, so no work happens
+ * when this file is merely included.
+ *
+ * @since 0.1.0
+ *
+ * @return Plugin Plugin instance.
+ */
+function plugin_slug(): Plugin {
+	static $plugin = null;
+
+	if ( null === $plugin ) {
+		$plugin = new Plugin(
+			ConfigFactory::create( __DIR__ . '/config/defaults.php' )->getSubConfig( 'Gamajo\PluginSlug' )
+		);
+	}
+
+	return $plugin;
+}
