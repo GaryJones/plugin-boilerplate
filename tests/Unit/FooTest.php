@@ -27,7 +27,7 @@ class FooTest extends TestCase {
 	 */
 	public function test_method_asserts_as_true(): void {
 		// Replace this with some actual testing code.
-		static::assertTrue( ( new Testee() )->is_true() );
+		static::assertTrue( new Testee()->is_true() );
 	}
 
 	/**
@@ -43,6 +43,6 @@ class FooTest extends TestCase {
 	 */
 	public function test_method_call_value_equals_method_call_value(): void {
 		// Replace this with some actual testing code.
-		static::assertSame( 'Foo::bar()', ( new Testee() )->bar() );
+		static::assertSame( 'Foo::bar()', new Testee()->bar() );
 	}
 }
