@@ -71,7 +71,6 @@
 		"cs": "@php ./vendor/bin/phpcs",
 		"cs-fix": "@php ./vendor/bin/phpcbf",
 		"infection": "./vendor/bin/infection --no-progress --threads=max --show-mutations",
-		"integration": "@test:integration",
 		"lint": [
 			"@php ./vendor/bin/parallel-lint . --exclude vendor --exclude node_modules",
 			"bin/xml-lint"
@@ -95,15 +94,13 @@
 		],
 		"test:integration": "bin/wp-env-phpunit --testsuite integration",
 		"test:integration-ms": "bin/wp-env-phpunit --multisite --testsuite integration",
-		"test:unit": "@php ./vendor/bin/phpunit --testsuite unit",
-		"unit": "@test:unit"
+		"test:unit": "@php ./vendor/bin/phpunit --testsuite unit"
 	},
 	"scripts-descriptions": {
 		"coverage": "Run the unit tests and generate an HTML coverage report in .phpunit.cache/coverage-html.",
 		"cs": "Check coding standards with PHP_CodeSniffer.",
 		"cs-fix": "Fix automatically fixable coding standards violations with PHP Code Beautifier and Fixer.",
 		"infection": "Run mutation testing with Infection.",
-		"integration": "Deprecated alias for test:integration, kept until CI moves to the new script names.",
 		"lint": "Check PHP files for syntax errors and XML config files against their schemas.",
 		"phpstan": "Run static analysis with PHPStan.",
 		"rector": "Preview automated refactorings with Rector (dry run).",
@@ -112,7 +109,6 @@
 		"test-full": "Run every check: lint, coding standards, Rector, unit, mutation, and integration tests.",
 		"test:integration": "Run the integration tests inside the wp-env tests container.",
 		"test:integration-ms": "Run the integration tests against WordPress multisite inside the wp-env tests container.",
-		"test:unit": "Run the unit tests.",
-		"unit": "Deprecated alias for test:unit, kept until CI moves to the new script names."
+		"test:unit": "Run the unit tests."
 	}
 }
