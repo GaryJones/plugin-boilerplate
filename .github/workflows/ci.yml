@@ -26,6 +26,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 15
+
     permissions:
       contents: read
 
@@ -41,37 +43,38 @@ jobs:
         with:
           php-version: '8.4'
           coverage: none
-          tools: composer:v2
+          tools: composer:v2, cs2pr
           extensions: mbstring # Just enough to keep phpunit happy when installing Composer dependencies.
 
       - name: Validate composer.json
-        run: composer validate --no-check-lock
+        run: composer validate --strict
 
       - name: Install Composer dependencies
         uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           working-directory: plugin-slug
-          composer-options: --prefer-dist --no-progress --no-suggest
+          composer-options: --prefer-dist --no-progress
 
-      # Needed as runs-on: system doesn't have xml-lint by default.
-      - name: Lint .phpcs.xml.dist
-        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
-        with:
-          xml-file: ./plugin-slug/.phpcs.xml.dist
-          xml-schema-file: ./plugin-slug/vendor/squizlabs/php_codesniffer/phpcs.xsd
+      # php-parallel-lint and bin/xml-lint cover the PHP and XML files,
+      # so local runs and CI share one code path.
+      - name: Lint PHP and XML files
+        run: composer lint
 
-      # Needed as runs-on: system doesn't have xml-lint by default.
-      - name: Lint phpunit.xml.dist
-        uses: ChristophWurst/xmllint-action@7c54ff113fc0f6d4588a15cb4dfe31b6ecca5212 # v1.2.1
-        with:
-          xml-file: ./plugin-slug/phpunit.xml.dist
-          xml-schema-file: ./plugin-slug/vendor/phpunit/phpunit/phpunit.xsd
+      - name: Check composer.json normalisation
+        run: composer normalize --dry-run
 
-      - name: Lint PHP files
-        run: bin/php-lint
-
+      # Pipe through cs2pr so sniff violations show as inline PR annotations.
       - name: Run PHPCS
-        run: composer cs
+        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
+
+      - name: Run Rector (dry run)
+        run: composer rector
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Audit dependencies
+        run: composer audit
 
   test:
     name: WP ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
