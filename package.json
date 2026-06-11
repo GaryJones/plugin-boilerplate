@@ -1,13 +1,19 @@
 {
-	"name": "PLUGIN-SLUG",
+	"name": "plugin-slug",
 	"version": "0.1.0",
 	"description": "Short description of the plugin.",
 	"license": "GPL-2.0-or-later",
 	"private": true,
 	"repository": "GaryJones/plugin-boilerplate",
+	"engines": {
+		"node": ">=24"
+	},
 	"scripts": {
-		"bump:patch": "bump patch --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md",
-		"bump:minor": "bump minor --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md",
-		"bump:major": "bump major --commit 'Version %s.' package.json package-lock.json plugin-slug.php README.md"
+		"bump:patch": "bump patch --commit 'Version %s.' package.json plugin-slug.php README.md",
+		"bump:minor": "bump minor --commit 'Version %s.' package.json plugin-slug.php README.md",
+		"bump:major": "bump major --commit 'Version %s.' package.json plugin-slug.php README.md"
+	},
+	"devDependencies": {
+		"version-bump-prompt": "^6.1.0"
 	}
 }

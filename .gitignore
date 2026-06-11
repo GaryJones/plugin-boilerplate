@@ -6,3 +6,9 @@
 /.phpcs.xml
 /phpcs.xml
 /phpunit.xml
+/.wp-env.override.json
+.phpcs.cache
+package-lock.json
+*.log
+npm-debug.log*
+.DS_Store
