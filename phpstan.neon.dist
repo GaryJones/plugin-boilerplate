@@ -11,3 +11,6 @@ parameters:
 	paths:
 		- plugin-slug.php
 		- src
+	# Declares the plugin constants, which are defined at runtime.
+	bootstrapFiles:
+		- phpstan-bootstrap.php

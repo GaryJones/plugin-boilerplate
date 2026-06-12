@@ -40,6 +40,7 @@
 /infection.json.dist export-ignore
 /package-lock.json   export-ignore
 /package.json        export-ignore
+/phpstan-bootstrap.php export-ignore
 /phpstan.neon.dist   export-ignore
 /phpunit.xml.dist    export-ignore
 /rector.php          export-ignore
