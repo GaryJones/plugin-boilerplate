@@ -34,35 +34,18 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// The one constant the plugin needs: every path is derived from it at runtime.
+define( 'PLUGIN_SLUG_FILE', __FILE__ );
+
 // Load Composer autoloader.
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-// Initialize the plugin on a hook, rather than at file include time.
+// Wire the plugin's features to WordPress on a hook, rather than at include time.
 add_action(
 	'plugins_loaded',
 	static function (): void {
-		plugin_slug()->run();
+		new Bootstrapper()->init();
 	}
 );
-
-/**
- * Get the plugin instance.
- *
- * Builds and caches the Plugin object on first call, so no work happens
- * when this file is merely included.
- *
- * @since 0.1.0
- *
- * @return Plugin Plugin instance.
- */
-function plugin_slug(): Plugin {
-	static $plugin = null;
-
-	if ( ! $plugin instanceof Plugin ) {
-		$plugin = new Plugin( __FILE__ );
-	}
-
-	return $plugin;
-}

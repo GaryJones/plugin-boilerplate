@@ -1,6 +1,6 @@
 <?php
 /**
- * Main plugin file
+ * Settings page feature
  *
  * @package      Gamajo\PluginSlug
  * @author       Gary Jones
@@ -13,18 +13,17 @@ declare( strict_types = 1 );
 namespace Gamajo\PluginSlug;
 
 /**
- * Main plugin class.
- *
  * Registers an example settings page directly against the WordPress API.
+ *
  * Swap these registrations for your own; the boilerplate keeps them here,
  * fully typed, rather than behind a configuration abstraction.
  *
- * @since   0.1.0
+ * @since   0.2.0
  *
  * @package Gamajo\PluginSlug
  * @author  Gary Jones
  */
-class Plugin {
+final class SettingsPage {
 
 	/**
 	 * Settings page slug, and the page the settings are shown on.
@@ -83,23 +82,21 @@ class Plugin {
 	private string $hook_suffix = '';
 
 	/**
-	 * Instantiate a Plugin object.
+	 * Derive the plugin paths from the one plugin-file constant.
 	 *
 	 * @since 0.2.0
-	 *
-	 * @param string $file Absolute path to the main plugin file.
 	 */
-	public function __construct( string $file ) {
-		$this->dir = plugin_dir_path( $file );
-		$this->url = plugin_dir_url( $file );
+	public function __construct() {
+		$this->dir = plugin_dir_path( PLUGIN_SLUG_FILE );
+		$this->url = plugin_dir_url( PLUGIN_SLUG_FILE );
 	}
 
 	/**
-	 * Launch the initialization process.
+	 * Register the feature's hooks.
 	 *
-	 * @since 0.1.0
+	 * @since 0.2.0
 	 */
-	public function run(): void {
+	public function register(): void {
 		add_action( 'admin_menu', $this->register_settings_page( ... ) );
 		add_action( 'admin_init', $this->register_settings( ... ) );
 		add_action( 'admin_enqueue_scripts', $this->enqueue_admin_assets( ... ) );
@@ -141,7 +138,7 @@ class Plugin {
 	 * The field passes a label_for argument matching the id of the input in
 	 * its view, so the rendered field title labels that control.
 	 *
-	 * @since 0.1.0
+	 * @since 0.2.0
 	 */
 	public function register_settings(): void {
 		register_setting(
