@@ -29,6 +29,7 @@
 /infection.json.dist
 /package.json
 /package-lock.json
+/phpstan-bootstrap.php
 /phpstan.neon.dist
 /phpunit.xml.dist
 /rector.php
