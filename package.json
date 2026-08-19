@@ -20,7 +20,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/dom-ready": "^4.52.0",
-		"@wordpress/i18n": "^6.21.1",
+		"@wordpress/i18n": "^6.26.0",
 		"@wordpress/scripts": "^34.0.0",
 		"version-bump-prompt": "^6.1.0"
 	}
