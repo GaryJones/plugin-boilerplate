@@ -243,7 +243,7 @@ final class SettingsPage {
 		/**
 		 * Script dependencies and version, in the shape @wordpress/scripts writes.
 		 *
-		 * @var array{dependencies: list<string>, version: string} $asset
+		 * @var array{dependencies: array<non-empty-string>, version: string} $asset
 		 */
 		$asset = require $asset_file;
 
