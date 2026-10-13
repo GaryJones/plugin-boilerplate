@@ -58,7 +58,9 @@ jobs:
       # The runner image does not ship xmllint, which bin/xml-lint uses to
       # validate the XML configs against their schemas.
       - name: Install xmllint
-        run: sudo apt-get install --yes --no-install-recommends libxml2-utils
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libxml2-utils
 
       # php-parallel-lint and bin/xml-lint cover the PHP and XML files,
       # so local runs and CI share one code path.
