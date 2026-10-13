@@ -42,7 +42,7 @@ class SettingsPageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->fixtures = dirname( __DIR__ ) . '/fixtures/';
+		$this->fixtures = __DIR__ . '/../fixtures/';
 
 		if ( ! defined( 'PLUGIN_SLUG_FILE' ) ) {
 			define( 'PLUGIN_SLUG_FILE', '/plugin/plugin-slug.php' );

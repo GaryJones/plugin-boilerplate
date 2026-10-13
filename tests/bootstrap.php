@@ -51,7 +51,7 @@ if ( $plugin_slug_is_integration ) {
 	\tests_add_filter(
 		'muplugins_loaded',
 		function (): void {
-			require dirname( __DIR__ ) . '/plugin-slug.php';
+			require __DIR__ . '/../plugin-slug.php';
 		}
 	);
 
@@ -67,7 +67,7 @@ if ( $plugin_slug_is_integration ) {
 	// escape. Loading the classes here, before any test runs, means
 	// Infection's interceptor is still in place to serve the mutants.
 	$plugin_slug_src_files = new \RecursiveIteratorIterator(
-		new \RecursiveDirectoryIterator( dirname( __DIR__ ) . '/src', \FilesystemIterator::SKIP_DOTS )
+		new \RecursiveDirectoryIterator( __DIR__ . '/../src', \FilesystemIterator::SKIP_DOTS )
 	);
 
 	foreach ( $plugin_slug_src_files as $plugin_slug_src_file ) {
