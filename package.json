@@ -19,7 +19,7 @@
 		"bump:major": "bump major --commit 'Version %s.' package.json plugin-slug.php README.md"
 	},
 	"devDependencies": {
-		"@wordpress/dom-ready": "^4.57.0",
+		"@wordpress/dom-ready": "^5.1.0",
 		"@wordpress/i18n": "^7.1.0",
 		"@wordpress/scripts": "^37.0.0",
 		"version-bump-prompt": "^6.1.0"
